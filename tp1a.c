@@ -15,20 +15,25 @@ float pdfNormal(float s,float c, float x){
 
 }
 
-float *genDataSets(float centro, float sigma, int n,float x){
+float *genDataSets(float centro, float sigma, int n){
 
 
         
         float *res = malloc(n*sizeof(float));
 	float max=pdfNormal(sigma,centro,centro);
 	int i=0;
-	
-	while(i<n){
+        float a=centro-(3*sigma);
+        float b=centro+(3*sigma);		// revisar porq 3
+        
+//         printf("\na: %f,b: %f\n",a,b);
+
+        while(i<n){
+		float x = ((((float)rand())/RAND_MAX)*(b-a))+a;	          // x entre centro-3sigma y centro+3sigma
 		float y = (float)rand()/(float)(RAND_MAX/max);			// y entre 0 y max
 		if(y <= pdfNormal(sigma,centro,x)){
 			//lo acepto
-			printf("acepto: %f %f\n",x,y);
-                        res[i]=y;
+			printf("%f,",x);
+                        res[i]=x;
                         i++;
                 } else
                         printf("no acepto: %f %f\n",x,y);
@@ -54,33 +59,27 @@ int main(int argc, char **argv){
         
 	FILE *res = fopen("ej1a.data","w+");	
         float sigma = c*sqrt(d);
+
         // Clase 1, centro en (1,1,...,1)
 	for(i=0;i<n/2;i++){
 
-            float a=1-(3*sigma);
-            float b=1+(3*sigma);		// revisar porq 3
-            float x = (float)(rand()+a)/(float)(RAND_MAX/b);	// x entre centro-3sigma y centro+3sigma
-            clase = genDataSets(1,sigma,d-1,x);
+            clase = genDataSets(1,sigma,d);
         
             int j;
-            fprintf(res,"%f,",x);
-            for(j=0;j<d-1;j++)
+            for(j=0;j<d;j++)
                 fprintf(res,"%f,",clase[j]);
             fprintf(res,"1\n");
             free(clase);
         }
         
+        printf("\nclase 0\n");
         // Clase 0, centro en (-1,-1,...,-1)
 	for(i=0;i<n/2;i++){
 
-            float a=1-(3*sigma);
-            float b=1+(3*sigma);		// revisar porq 3
-            float x = (float)(rand()+a)/(float)(RAND_MAX/b);	// x entre centro-3sigma y centro+3sigma
-            clase = genDataSets(-1,sigma,d-1,x);
+            clase = genDataSets(-1,sigma,d);
         
             int j;
-            fprintf(res,"%f,",x);
-            for(j=0;j<d-1;j++)
+            for(j=0;j<d;j++)
                 fprintf(res,"%f,",clase[j]);
             fprintf(res,"0\n");
             free(clase);

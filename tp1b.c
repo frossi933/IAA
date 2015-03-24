@@ -26,8 +26,8 @@ float *genDataSets(float centro, float sigma, int n){
 	int i=0;
 	
 	while(i<n){
-		float x = (float)(rand()+a)/(float)(RAND_MAX/b);	// x entre centro-3sigma y centro+3sigma
-		float y = (float)rand()/(float)(RAND_MAX/max);			// y entre 0 y max
+		float x = ((((float)rand())/RAND_MAX)*(b-a))+a;   // x entre centro-3sigma y centro+3sigma
+		float y = (float)rand()/(float)(RAND_MAX/max);    // y entre 0 y max
 		
 		if(y <= pdfNormal(sigma,centro,x)){
 			//lo acepto
