@@ -8,16 +8,11 @@ float pdfNormal(float s,float c, float x){
 		a = 1/(s*sqrt(2*M_PI));
 		s_aux = s;
 	}
-
-	//return a*exp((-1/2)*pow((x-c)/s,2));
-
-	return (1/(s*sqrt(2*M_PI)))*exp((-1/2)*pow((x-c)/s,2));
-
+	return a*exp((-1/2)*pow((x-c)/s,2));
+// 	return (1/(s*sqrt(2*M_PI)))*exp((-1/2)*pow((x-c)/s,2));
 }
 
 float *genDataSets(float centro, float sigma, int n){
-
-
         
         float *res = malloc(n*sizeof(float));
 	float a=centro-(3*sigma);
@@ -31,12 +26,12 @@ float *genDataSets(float centro, float sigma, int n){
 		
 		if(y <= pdfNormal(sigma,centro,x)){
 			//lo acepto
-			printf("acepto: %f %f\n",x,y);
+			printf("acepto: %f %f\n",x,y);           // sacar
                         res[i]=y;
                         i++;
                 } else
-                        printf("no acepto: %f %f\n",x,y);
                         // no lo acepto
+                        printf("no acepto: %f %f\n",x,y);       // sacar
 	}
 	return res;
 }
@@ -62,12 +57,15 @@ int main(int argc, char **argv){
 	for(i=1;i<d;i++)
             clases[i] = genDataSets(0,c,n/2);
         
-        
         for(j=0;j<n/2;j++){
             for(i=0;i<d;i++)
                 fprintf(res,"%f,",clases[i][j]);
             fprintf(res,"1\n");
         }
+        
+        // libero los datos de la clase 1...
+        for(i=0;i<d;i++)
+            free(clases[i]);
         
         // Clase 0, centro en (-1,0,0,...,0)
         clases[0] = genDataSets(-1,c,n/2);
@@ -80,8 +78,10 @@ int main(int argc, char **argv){
             fprintf(res,"0\n");
         }
 
+        // libero los datos de la clase 0
         for(i=0;i<d;i++)
             free(clases[i]);
+        
         free(clases);
         fclose(res);
 }
