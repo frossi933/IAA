@@ -1,6 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// programa para traducir el archivo .data generado en dos archivos para usar en el gnuplot (un archivo para cada clase)
+// este caso es para valores con 4 entradas
+
+// file: archivo .data
+// n: cant de valores en total
+
 // ./plot4 file n
 int main(int argc, char **argv){
 

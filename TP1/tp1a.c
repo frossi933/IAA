@@ -5,7 +5,7 @@
 float pdfNormal(float s,float c, float x){
 	static float s_aux,a;
 	if(s_aux!=s){ 
-		a = 1/(s*sqrt(2*M_PI));
+		a = 1.0/(s*sqrt(2*M_PI));
 		s_aux = s;
 	}
 
@@ -22,8 +22,8 @@ float *genDataSets(float centro, float sigma, int n){
         float b=centro+(3*sigma);		                         // revisar porq 3
 
         while(i<n){
-		float x = ((((float)rand())/RAND_MAX)*(b-a))+a;	         // x entre centro-3sigma y centro+3sigma
-		float y = (float)rand()/(float)(RAND_MAX/max);		 // y entre 0 y max
+		float x = ((((float)rand())/(float)RAND_MAX)*(b-a))+a;	         // x entre centro-3sigma y centro+3sigma
+		float y = ((float)rand())/(((float)RAND_MAX)/max);		 // y entre 0 y max
 		if(y <= pdfNormal(sigma,centro,x)){
                     //lo acepto
                     printf("%f,",x);                                 // sacar

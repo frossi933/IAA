@@ -15,7 +15,7 @@ int main(int argc, char **argv){
     n = atoi(argv[1]);
     srand(time(NULL));
 
-    float x,y,r,t;
+    float x,y,r,r0,r1,t;
     
     while(c1<n/2 || c0<n/2){
         x = ((((float)rand())/RAND_MAX)*2.0)-1.0;       // genero un flotante x entre -1 y 1
@@ -24,8 +24,11 @@ int main(int argc, char **argv){
         r = sqrt((x*x)+(y*y));                          // radio de las coordenadas polares
         
         if(r<1){
-            t = atan(y/x);                              // theta de las coordanadas polares
-            if(r > (t/(4.0*M_PI)) && r < (t+M_PI)/(4.0*M_PI)){
+            t = atan2(y,x);                              // theta de las coordanadas polares (entre 0 y 2pi)
+            r0=t/(4.0*M_PI);
+            r1=r0+0.25;                                 // (t+pi)/4pi = (t/4pi)+(pi/4pi) = r0 + 1/4
+            
+            if( (r > r0 && r < r1) || (r > (r0+0.5) && r < (r1+0.5)) || (r > (r0+1)) ){
                 // clase 0
                 if(c0 >= n/2)
                     continue;
@@ -44,7 +47,6 @@ int main(int argc, char **argv){
             }
         }
     }
-    
-    
     fclose(res);
+    return 0;
 }
