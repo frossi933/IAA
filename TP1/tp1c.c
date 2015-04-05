@@ -10,7 +10,8 @@
 int main(int argc, char **argv){
 
     int n,c1=0,c0=0;    
-    FILE *res = fopen("ej1c.data", "w+");
+    FILE *data = fopen("ej1c.data", "w+");
+    FILE *names = fopen("ej1c.names", "w+");
     
     n = atoi(argv[1]);
     srand(time(NULL));
@@ -24,16 +25,16 @@ int main(int argc, char **argv){
         r = sqrt((x*x)+(y*y));                          // radio de las coordenadas polares
         
         if(r<1){
-            t = atan2(y,x);                              // theta de las coordanadas polares (entre 0 y 2pi)
-            r0=t/(4.0*M_PI);
-            r1=r0+0.25;                                 // (t+pi)/4pi = (t/4pi)+(pi/4pi) = r0 + 1/4
+            t = atan2(y,x);                             // theta de las coordanadas polares (entre 0 y 2pi)
+            r0 = t/(4.0*M_PI);
+            r1 = r0+0.25;                               // (t+pi)/4pi = (t/4pi)+(pi/4pi) = r0 + 1/4
             
             if( (r > r0 && r < r1) || (r > (r0+0.5) && r < (r1+0.5)) || (r > (r0+1)) ){
                 // clase 0
                 if(c0 >= n/2)
                     continue;
                 else{
-                    fprintf(res,"%f,%f,0\n",x,y);
+                    fprintf(data,"%f,%f,0\n",x,y);
                     c0++;
                 }
             } else {
@@ -41,12 +42,16 @@ int main(int argc, char **argv){
                 if(c1 >= n/2)
                     continue;
                 else {
-                    fprintf(res,"%f,%f,1\n",x,y);
+                    fprintf(data,"%f,%f,1\n",x,y);
                     c1++;
                 }
             }
         }
     }
-    fclose(res);
+    
+    fprintf(names,"clase0,clase1.\nx:continuous.\ny:continuous.\n");    
+    
+    fclose(data);
+    fclose(names);
     return 0;
 }
