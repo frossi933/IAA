@@ -75,7 +75,7 @@ int main(int argc, char **argv){
             free(clase);
         }
 
-        fprintf(names,"clase0,clase1.\n");
+        fprintf(names,"0,1.\n");
         for(i=0;i<d;i++)
             fprintf(names,"d%d:continuous.\n",i);
         

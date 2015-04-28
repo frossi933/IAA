@@ -79,7 +79,7 @@ int main(int argc, char **argv){
             fprintf(data,"0\n");
         }
 
-        fprintf(names,"clase0,clase1.\n");
+        fprintf(names,"0,1.\n");
 
         for(i=0;i<d;i++){
             free(clases[i]);                                // libero los datos de la clase 0

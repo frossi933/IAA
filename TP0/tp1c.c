@@ -56,7 +56,7 @@ int main(int argc, char **argv){
         }
     }
     
-    fprintf(names,"clase0,clase1.\nx:continuous.\ny:continuous.\n");    
+    fprintf(names,"0,1.\nx:continuous.\ny:continuous.\n");    
     
     fclose(data);
     fclose(names);
