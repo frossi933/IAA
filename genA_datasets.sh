@@ -4,12 +4,6 @@
 # DIAGONAL datasets
 # ~~~~~~~~~~~~~~~~~
 
-if [$# > 0]
-then
-	echo "Error en los argumentos."
-	exit 1
-fi
-
 gena="/home/chino/Desktop/IAA/TP0/genA "
 
 echo "inputs? "

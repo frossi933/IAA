@@ -4,12 +4,6 @@
 # PARALLEL datasets
 # ~~~~~~~~~~~~~~~~~
 
-if [$# > 0]
-then
-	echo "Error en los argumentos."
-	exit 1
-fi
-
 genb="/home/chino/Desktop/IAA/TP0/genB "
 
 echo "inputs? "
@@ -28,7 +22,7 @@ cd $sten
 
 for ((i=1;i<=$m;i++))
 do
-	eval "$genb $inputs $n $c par_sten$i"
+	eval "$genb $inputs $n $c par_$sten$i"
 	echo "datasets $sten$i generado..."
 done
 
