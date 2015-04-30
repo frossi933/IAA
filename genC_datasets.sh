@@ -4,20 +4,13 @@
 # ESPIRALES datasets
 # ~~~~~~~~~~~~~~~~~~
 
-if [$# > 0]
-then
-	echo "Error en los argumentos."
-	exit 1
-fi
+# ./genC ptos sets sten
 
 genc="/home/chino/Desktop/IAA/TP0/genC "
 
-echo "cantidad de puntos?"
-read n
-echo "cantidad de sets?"
-read m
-echo "Nombre del dataset? "
-read sten
+n=$1
+m=$2
+sten=$3
 
 mkdir $sten
 cd $sten
@@ -25,6 +18,7 @@ cd $sten
 for ((i=1;i<=$m;i++))
 do
 	eval "$genc $n esp_$sten$i"
+	sleep 1
 	echo "datasets $sten$i generado..."
 done
 
