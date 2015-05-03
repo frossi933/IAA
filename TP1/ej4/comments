@@ -1,0 +1,22 @@
+Introduccion
+············
+
+Los atributos presentes en este problema son dos, por un lado el valor de la coordenada "x" y por otro el valor de la coordenada "y" de cada punto en el plano. 
+El objetivo de la funcion target es clasificar cada punto segun se encuentre entre las curvas "ro = theta/4pi" y "ro = (theta+pi)/4pi" (clase 0) o en el resto 
+del espacio contenido en una circunsferencia de radio 1 (clase 1).
+Dicha funcion obtenida en cada caso de prueba se evaluará sobre un conjunto de ejemplos de longitud 10000 y las predicciones se podrán observar en las imágenes 
+"training1.png", "training2.png", "training3.png"
+
+Analisis
+········
+
+En el primer entrenamiento, el conjunto de ejemplo a partir del cual se obtiene el árbol de decisión consta de 150 casos. Lo cual es evidente que no son 
+suficientes como para determinar un árbol que clasifique de manera aproximada, por lo menos, las espirales. Es decir, la hipotesis inducida no logra capturar 
+la pertenencia de cada punto a su clase debido al tamaño del conjunto de entrenamiento. Por lo tanto, el árbol se vuelve sensible a los pocos datos que tenemos,
+es decir, una pequeña diferencia de concentración de puntos en algún lugar del plano cobra mayor importancia dentro del árbol y asi solo logramos diferenciar una
+parte de la clase. Además, al tener pocos datos y tener como parte del sesgo inductivo la preferencia por los árboles más cortos, se obtiene una clasificación 
+más general de los puntos.
+Teniendo en cuenta estas apreciaciones podemos observar como, a medida que aumentamos la longitud de los conjuntos de entrenamiento, obtenemos mejores clasificaciones,
+y esto se traduce en gráficas mas parecidas a las espirales deseadas.
+
+ 

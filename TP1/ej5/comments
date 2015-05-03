@@ -1,0 +1,57 @@
+Introducción
+············
+
+En este ejercicio tenemos por un lado el conjunto de puntos en el plano denominado "Diagonal" (generados con el apartado (a) del Trabajo Practico 0) y
+"Paralelo" (generados con el apartado (b) del Trabajo Practico 0), por lo tanto, los atributos presentes son las coordenadas de dichos puntos. Las clases
+se encuentran detalladas en dicho Trabajo anterior.
+Para ambos conjuntos generamos datasets de entrenamiento con diferentes cantidades de puntos (100, 200, 300, 500, 1000, 5000), con C=0.75 y dimension igual a 2.
+Los datos finales utilizados son el promedio entre 20 casos generados para cada apartado.
+
+Diagonal
+········
+
+> Training Error Vs Test Error
+	En las graficas "diag_bp" y "diag_ap" observamos, ambos errores porcentuales en funcion de la longitud de los datasets, para antes y despues del prunning, 
+	respectivamente. Primero vemos que practicamente no hay diferencia luego del prunning, es decir, presentan el mismo comportamiento y con casi los mismos
+	valores, esto puede deberse a que el tamaño de los conjuntos no genera arboles muy ramificados y especificos, lo cual acorta la tarea del podado.
+	El aspecto a destacar es como el error de ambos (training y test) tienden a estabilizarse en un mismo valor. Comenzamos con una marcada diferencia entre
+	ambos, porque los pocos ejemplos de entrenamiento no son capaces de generar un arbol muy preciso. Luego a medida que aumentamos el tamaño del
+	conjunto de entrenamiento el error del test va disminuyendo ya que el arbol va ganado precision para clasificar los puntos y el error de entrenamiento
+	va aumentando un poco debido a nuestro sesgo inductivo de preferir los arboles mas pequeños sobre los mas grandes, es decir, esto provoca que se acepten
+	ciertos nodos no muy definidos pero que no aumenten la profundidad del mismo innecesariamente.
+
+> Tamaño del arbol de decision
+	En las imagenes "nodes_diag_bp" y "nodes_diag_ap" tenemos graficados los nodos del arbol en funcion del tamaño de los conjuntos de entrenamiento, para antes
+	y despues del prunning, respectivamente. Nuevamente es casi inperceptible la diferencia luego del prunning.
+	Claramente, lo mas relevante es notar como el tamaño del arbol (cantidad de nodos) va aumentando con el tamaño del conjunto de entrenamiento.
+
+Paralelo
+········
+
+> Training Error Vs Test Error
+	En las graficas "par_bp" y "par_ap" tenemos, al igual que antes, los errores en funcion de la longitud de los datasets, pero para el conjunto "Paralelo".
+	Se repite el hecho de no observar diferencias luego del prunning y de ver como ambos errores se acercan y tienden a estabilizarse en el mismo valor tras
+	aumentar los datos de entrenamiento. En este caso desde el comienzo no se nota tanta diferencia entre ambos errores
+
+> Tamaño del arbol de decision
+	En las imagenes "nodes_par_bp" y "nodes_par_ap" tenemos graficados el numero de nodo de cada arbol segun el tamaño del conjunto de ejemplos para entrenamiento,
+	para antes y despues del prunning, respectivamente. A diferencia del caso Diagonal vemos que el numero de nodos no cambia mucho junto con el tamaño de los datasets.
+	Esto se debe a que en este caso las clases se centran en los puntos (1,0) y (-1,0) lo cual indica que son simetricas respecto al eje Y y esto implica
+	que los valores de dicho atributo no participan en la toma de decision dentro del arbol, lo cual se traduce en menos nodos a generar.
+
+Diagonal Vs Paralelo
+····················
+
+> Training Error Vs Test Error
+	En las imagenes "dp_bp" y "dp_ap" tenemos presentes los errores de test y training de ambos conjuntos para antes y despues del prunning. Otra vez no se prensentan
+	demasiadas diferencias luego del proceso de poda.
+	Aqui vemos que el error de entrenamiento de los dos conjuntos de datos (diagonal y paralelo) son muy parecidos con todos los valores del tamaño de los datasets de
+	training, es decir, no se marcan diferencias en los errores durante la creacion del arbol y posterior prueba con los ejemplos brindados. Pero si se nota mas la
+	diferencia entre los errores de test, donde el error de los datos en paralelo es menor debido a que resulta mas facil clasificar sus clases por su disposicion en
+	el plano, como marcaba anteriormente solo se necesita observar los valores de las coordenadas del eje X para determinar la pertenencia. En cambio, en los datos
+	en diagonal necesitamos ambas coordenadas para la creacion del arbol y posterior clasificacion, y esto introduce mas errores. Finalmente los cuatro valores parecen
+	tender a un mismo valor estable.
+
+> Tamaño del arbol de decision
+	En las imagenes "dp_bp_nodes" y "dp_ap_nodes" observamos conjuntamente los tamaños de los casos diagonal y paralelo. Aqui es mas facil observar los detalles
+	mencionados anteriormente a la hora de comparar el comportamiento de cada uno.

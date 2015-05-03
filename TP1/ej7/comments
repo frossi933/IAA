@@ -1,0 +1,19 @@
+Introduccion
+············
+
+En este ejercicio se generan los datasets con C=0.75, de longitud 250 para el entrenamiento y de 10000 para los tests. En este caso, variamos las dimensiones de los
+conjuntos entre los siguientes valores: 2, 3, 5, 7, 10, 15, 30. Como en todos los casos, se generan 20 sets diferentes sobre los que se realizan las pruebas y 
+finalmente se obtiene un promedio para realizar las graficas.
+
+Analisis
+········
+
+En la imagen "dp_errors" se observa la grafica que corresponde a los errores porcentuales de test y entrenamiento de los datos en diagonal y paralelo. Las cuatro
+curvas se encuentran juntas para poder analizar mas facilmente las diferencias.
+En primer lugar podemos ver que la mayor diferencia se encuentra entre los errores de los datos en diagonal, dicha diferencia se acentua cada vez mas a medida
+que aumentamos el numero de dimensiones. Es decir, el error de entrenamiento disminuye debido a que cada vez el arbol tiene mas dimensiones, y por lo tanto,
+mas informacion para generar sus nodos y asi ajustarse mas a los datos de training. Pero este sobreajuste a los datos hace que el arbol pierda precision en la
+realidad, que en este caso es nuestro conjunto de test. En el caso de los datos en paralelo ocurre algo diferente, el error de test se mantiene constante, a pesar de
+que el error de training disminuye. Como mencionamos ya muchas veces, el unico atributo a tener en cuenta para la clasificacion de estos puntos es la primer coordenada,
+por lo tanto, por mas que sigamos aumentando las dimensiones, el criterio de decision es siempre el mismo, por lo que la clasificacion se mantiene y, en consecuencia,
+tambien lo hace el error.

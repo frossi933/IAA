@@ -1,0 +1,18 @@
+Introduccion
+············
+
+En este ejercicio se analiza el resultado de C4.5 al intentar generar un arbol de decision para el conjunto de datos correspondientes al
+datasets XOR.
+
+Analisis
+········
+
+Tras hacer la prueba, podemos observar que C4.5 no es capaz de generar el arbol correcto de decision, es mas, solo obtenemos el arbol vacio.
+Esto se debe a la naturaleza del algoritmo implementado para obtener el arbol de decision. En primer lugar, para determinar la
+raiz del arbol se analizan cada uno de los atributos para elegir aquel que "mejor" clasifique los datos. Para formalizar ese concepto de "mejor"
+se utiliza la ganancia de informacion, que es la diferencia de entropia entre el sistema que tenemos actualmente y aquel que resultaria de fijar
+dicho atributo con el valor de la instancia correspondiente. En este caso, la entropia original es igual a 1, ya que tenemos 50% de obtener un punto
+de cada clase. Al evaluar cada uno de los atributos (que vendrian a ser cada coordenada del punto) se obtiene que la entropia sigue siendo 1 debido
+a que necesitamos fijar mas de un atributo para conocer la clase del punto. Por lo tanto, ninguno de los atributos provee una mejora a lo que
+tenemos actualmente (que es el arbol vacio) y ya que el algoritmo realiza una busqueda hill climbing en el espacio de todas las hipotesis(o arboles
+de decision) decide no continuar y retornar el arbol actual. De esta manera, obtenemos el arbol vacio.

@@ -1,0 +1,33 @@
+Introduccion
+············
+
+En este ejercicio se generan datasets con datos de dimension 5 y de longitud 250 para el entrenamiento y 10000 para el test. En estos conjuntos se varia el
+valor de C, el cual toma los valores 0.5, 1.0, 1.5, 2.0, 2.5. Ademas, se trabaja nuevamente con los datos correspondientes a "Diagonal" y "Paralelo" para luego
+compararlos.
+
+Analisis
+········
+
+En el archivo "test_error" se muestra la grafica correspondiente a los errores de test porcentuales de los conjuntos Diagonal y Paralelo, en funcion de los
+diferentes valores de C. Tambien se incluyen los valores minimos que podrian llegar a tomar estos.
+En el grafico podemos observar en primera instancia que los tres valores de error crecen a medida que crece el valor de C, esto es claro ya que al aumentar el
+valor de C se expande mas la zona donde se encuentran los puntos de cada clase y por lo tanto, aumenta la zona de superposicion de ambas clases. Otro aspecto
+a resaltar es que en cada uno de los valores siempre el error de los datos en diagonal es mayor que el error de los que se encuentran en paralelo. Como marcabamos
+en el ejercicio anterior, esto se debe a la posicion de los centros de cada conjunto. En el caso paralelo, solo tendremos superposicion de puntos en el atributo de
+la coordenada en el eje X, mientras que en el caso diagonal ambas coordenadas participaran en la superposicion, lo cual introduce mayor cantidad de error. Ademas,
+esa unica superposicion de los puntos en el paralelo es la inevitable por la naturaleza del problema, por este motivo, se acerca tanto al error minimo posible.
+
+Error Minimo
+············
+
+Es posible calcular el error minimo que podriamos esperar para este ejemplo. Para eso pensemos en la distribucion normal que representa cada una de las clases.
+Al aumentar el valor de C, aumentamos el desvio o "ancho" de la campaña de Gauss, esto hace que ambas graficas aumenten la superficie de interseccion y por lo
+tanto, el error introducido, ya que dicha interseccion representa el espacio del plano que compartiran puntos de ambas clases. Entonces, encontrar el error minimo
+que podemos esperar es calcular dicha superficie, para eso recurrimos a la tabla de distribucion normal luego de normalizar cada valor de C. Ademas observemos que
+el punto de interseccion de ambas graficas tiene absisa x=0
+
+Clase0 --> N(1, 0.5) --> P(X<0) = P(Z>(2-1)/0.5) = P(Z>2) = 0.0228
+       --> N(1, 1.0) --> P(X<0) = P(Z>(2-1)/1.0) = P(Z>1) = 0.1587
+       --> N(1, 1.5) --> P(X<0) = P(Z>(2-1)/1.5) = P(Z>2/3) = 0.2546
+       --> N(1, 2.0) --> P(X<0) = P(Z>(2-1)/2.0) = P(Z>1/2) = 0.3085
+       --> N(1, 2.5) --> P(X<0) = P(Z>(2-1)/2.5) = P(Z>2/5) = 0.3446

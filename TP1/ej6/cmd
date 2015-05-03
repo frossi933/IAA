@@ -1,1 +1,0 @@
-plot resume_diag_test.dat u 1:5 w linespoints lt 2 t Diagonal - Test Error , resume_par_test.dat u 1:5 w linespoints lt 4 t Parallel - Test Error
