@@ -1,0 +1,270 @@
+
+Arquitectura de la red: 5:20:1
+Archivo de patrones: ../ikeda
+Cantidad total de patrones: 200
+Cantidad de patrones de entrenamiento: 190
+Cantidad de patrones de validacion: 10
+Cantidad de patrones de test: 2000
+Epocas: 10000
+Learning Rate: 0.010000
+Momentum: 0.300000
+Frecuencia para grabar resultados: 50 EPOCAS
+Archivo con sinapsis iniciales: 0.WTS
+Semilla para la funcion rand(): 1432240795
+Fin del entrenamiento.
+
+Error final:
+Entrenamiento(est):0.026511
+Entrenamiento(med):0.025023
+Validacion:0.027382
+Test:0.044910
+
+Error minimo en validacion:
+Epoca:2600
+Validacion:0.014821
+Test:0.072069
+Test discreto:17.250000%
+
+
+Arquitectura de la red: 5:20:1
+Archivo de patrones: ../ikeda
+Cantidad total de patrones: 200
+Cantidad de patrones de entrenamiento: 190
+Cantidad de patrones de validacion: 10
+Cantidad de patrones de test: 2000
+Epocas: 10000
+Learning Rate: 0.010000
+Momentum: 0.300000
+Frecuencia para grabar resultados: 50 EPOCAS
+Archivo con sinapsis iniciales: 0.WTS
+Semilla para la funcion rand(): 1432240797
+Fin del entrenamiento.
+
+Error final:
+Entrenamiento(est):0.034061
+Entrenamiento(med):0.032824
+Validacion:0.067366
+Test:0.059860
+
+Error minimo en validacion:
+Epoca:1350
+Validacion:0.048700
+Test:0.072324
+Test discreto:16.100000%
+
+
+Arquitectura de la red: 5:20:1
+Archivo de patrones: ../ikeda
+Cantidad total de patrones: 200
+Cantidad de patrones de entrenamiento: 190
+Cantidad de patrones de validacion: 10
+Cantidad de patrones de test: 2000
+Epocas: 10000
+Learning Rate: 0.010000
+Momentum: 0.300000
+Frecuencia para grabar resultados: 50 EPOCAS
+Archivo con sinapsis iniciales: 0.WTS
+Semilla para la funcion rand(): 1432240799
+Fin del entrenamiento.
+
+Error final:
+Entrenamiento(est):0.033324
+Entrenamiento(med):0.030377
+Validacion:0.047017
+Test:0.055122
+
+Error minimo en validacion:
+Epoca:2200
+Validacion:0.021409
+Test:0.072483
+Test discreto:16.350000%
+
+
+Arquitectura de la red: 5:20:1
+Archivo de patrones: ../ikeda
+Cantidad total de patrones: 200
+Cantidad de patrones de entrenamiento: 190
+Cantidad de patrones de validacion: 10
+Cantidad de patrones de test: 2000
+Epocas: 10000
+Learning Rate: 0.010000
+Momentum: 0.300000
+Frecuencia para grabar resultados: 50 EPOCAS
+Archivo con sinapsis iniciales: 0.WTS
+Semilla para la funcion rand(): 1432240801
+Fin del entrenamiento.
+
+Error final:
+Entrenamiento(est):0.026344
+Entrenamiento(med):0.024368
+Validacion:0.064696
+Test:0.052587
+
+Error minimo en validacion:
+Epoca:4550
+Validacion:0.027683
+Test:0.060185
+Test discreto:14.250000%
+
+
+Arquitectura de la red: 5:20:1
+Archivo de patrones: ../ikeda
+Cantidad total de patrones: 200
+Cantidad de patrones de entrenamiento: 190
+Cantidad de patrones de validacion: 10
+Cantidad de patrones de test: 2000
+Epocas: 10000
+Learning Rate: 0.010000
+Momentum: 0.300000
+Frecuencia para grabar resultados: 50 EPOCAS
+Archivo con sinapsis iniciales: 0.WTS
+Semilla para la funcion rand(): 1432240803
+Fin del entrenamiento.
+
+Error final:
+Entrenamiento(est):0.026428
+Entrenamiento(med):0.024523
+Validacion:0.027209
+Test:0.042164
+
+Error minimo en validacion:
+Epoca:9900
+Validacion:0.020392
+Test:0.044088
+Test discreto:12.800001%
+
+
+Arquitectura de la red: 5:20:1
+Archivo de patrones: ../ikeda
+Cantidad total de patrones: 200
+Cantidad de patrones de entrenamiento: 190
+Cantidad de patrones de validacion: 10
+Cantidad de patrones de test: 2000
+Epocas: 10000
+Learning Rate: 0.010000
+Momentum: 0.300000
+Frecuencia para grabar resultados: 50 EPOCAS
+Archivo con sinapsis iniciales: 0.WTS
+Semilla para la funcion rand(): 1432240805
+Fin del entrenamiento.
+
+Error final:
+Entrenamiento(est):0.025457
+Entrenamiento(med):0.024396
+Validacion:0.048674
+Test:0.046372
+
+Error minimo en validacion:
+Epoca:4800
+Validacion:0.025802
+Test:0.053114
+Test discreto:14.350000%
+
+
+Arquitectura de la red: 5:20:1
+Archivo de patrones: ../ikeda
+Cantidad total de patrones: 200
+Cantidad de patrones de entrenamiento: 190
+Cantidad de patrones de validacion: 10
+Cantidad de patrones de test: 2000
+Epocas: 10000
+Learning Rate: 0.010000
+Momentum: 0.300000
+Frecuencia para grabar resultados: 50 EPOCAS
+Archivo con sinapsis iniciales: 0.WTS
+Semilla para la funcion rand(): 1432240808
+Fin del entrenamiento.
+
+Error final:
+Entrenamiento(est):0.025979
+Entrenamiento(med):0.025687
+Validacion:0.057305
+Test:0.044960
+
+Error minimo en validacion:
+Epoca:9450
+Validacion:0.052483
+Test:0.044091
+Test discreto:13.300000%
+
+
+Arquitectura de la red: 5:20:1
+Archivo de patrones: ../ikeda
+Cantidad total de patrones: 200
+Cantidad de patrones de entrenamiento: 190
+Cantidad de patrones de validacion: 10
+Cantidad de patrones de test: 2000
+Epocas: 10000
+Learning Rate: 0.010000
+Momentum: 0.300000
+Frecuencia para grabar resultados: 50 EPOCAS
+Archivo con sinapsis iniciales: 0.WTS
+Semilla para la funcion rand(): 1432240810
+Fin del entrenamiento.
+
+Error final:
+Entrenamiento(est):0.027943
+Entrenamiento(med):0.027049
+Validacion:0.192013
+Test:0.062132
+
+Error minimo en validacion:
+Epoca:7300
+Validacion:0.134575
+Test:0.062323
+Test discreto:16.150001%
+
+
+Arquitectura de la red: 5:20:1
+Archivo de patrones: ../ikeda
+Cantidad total de patrones: 200
+Cantidad de patrones de entrenamiento: 190
+Cantidad de patrones de validacion: 10
+Cantidad de patrones de test: 2000
+Epocas: 10000
+Learning Rate: 0.010000
+Momentum: 0.300000
+Frecuencia para grabar resultados: 50 EPOCAS
+Archivo con sinapsis iniciales: 0.WTS
+Semilla para la funcion rand(): 1432240812
+Fin del entrenamiento.
+
+Error final:
+Entrenamiento(est):0.027431
+Entrenamiento(med):0.026104
+Validacion:0.080166
+Test:0.051853
+
+Error minimo en validacion:
+Epoca:7600
+Validacion:0.062061
+Test:0.053755
+Test discreto:13.500001%
+
+
+Arquitectura de la red: 5:20:1
+Archivo de patrones: ../ikeda
+Cantidad total de patrones: 200
+Cantidad de patrones de entrenamiento: 190
+Cantidad de patrones de validacion: 10
+Cantidad de patrones de test: 2000
+Epocas: 10000
+Learning Rate: 0.010000
+Momentum: 0.300000
+Frecuencia para grabar resultados: 50 EPOCAS
+Archivo con sinapsis iniciales: 0.WTS
+Semilla para la funcion rand(): 1432240814
+Fin del entrenamiento.
+
+Error final:
+Entrenamiento(est):0.024482
+Entrenamiento(med):0.023788
+Validacion:0.029802
+Test:0.042737
+
+Error minimo en validacion:
+Epoca:10000
+Validacion:0.029802
+Test:0.042737
+Test discreto:12.500000%
+
