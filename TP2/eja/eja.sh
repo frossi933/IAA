@@ -36,7 +36,7 @@ do
 		echo "0" >> $FILE
 		echo "0" >> $FILE
 		echo "spawn $lr $m ..."
-		train $lr $m ${1}${I} &
+		train $lr $m ${1}${I}
 		I=$(( $I+1 ))
 	done
 done
