@@ -1,0 +1,13 @@
+Ejercicio (d)
+"""""""""""""
+
+En este apartado luego de haber modificado el codigo del algoritmo para implementar otro metodo de regularizacion, llamado weight-decay, se realizaron diferentes
+pruebas con los valores de GAMMA.
+Analizando las curvas de errores obtenidas se puede observar que los valores muy pequeños de GAMMA resultaban en entrenamientos que al aumentar el numero de epocas
+se presenta el fenomeno de overfitting, es decir, el error de entrenamiento decrece mientras que el de test es creciente. Como el valor de GAMMA es aquel que gradua
+la participacion del termino de penalizacion de los pesos, resulta que al elegir numeros muy pequeños, esta penalizacion no cumple con su funcion, ya que tiende a cero
+y la funcion resultante es aproximadamente la misma a aquella que no tiene dicho termino adicional.
+Por otro lado, para valores muy grandes de GAMMA el sistema se vuelve muy rigido, no permitiendo evolucionar en el aprendizaje. Esto se puede observar en las graficas
+donde los errores practicamente son constantes. Ademas, cuanto mas alto es, mayores son los errores obtenidos.
+Por estas razones, el valor de GAMMA que elegi es: 0.00001 debido a que es el equilibrio entre lo antedicho. Es decir, es el mayor GAMMA que no produce sobreajuste y el
+que menor porcentaje de errores genera.

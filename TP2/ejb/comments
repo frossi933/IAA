@@ -1,0 +1,11 @@
+Ejercicio (b)
+"""""""""""""
+
+En este apartado se trata de analizar como influye la arquitectura de la red (numero de neuronas en la capa intermedia) sobre el poder de la misma para realizar la
+clasificacion. Para eso tomamos el ejercicio de clasificar las espirales anidades del trabajo anterior, usando redes con diferentes valores de neuronas en la capa
+oculta.
+Los resultados obtenidos se pueden observar en las imagenes adjuntas. Claramente el poder de clasificacion de la red aumenta conforme aumentamos el numero de neuronas.
+Asi, en principio, solo se obtienen divisiones arbitrarias del espacio xy donde se encuentran los puntos graficados y a medida que avanzamos, es posible ver como
+la clasificacion se vuelve mas real y mas proxima a las espirales. Esto se debe, a que con pocas neuronas ocultas no se logra capturar la esencia de la division, es 
+decir, el algoritmo no cuenta con una red que permita agrupar de mejor manera los puntos segun su clase.
+Hasta que finalmente llegando a 40 neuronas ocultas se ve una forma muy parecida a la requerida (con un error menor al 10%)

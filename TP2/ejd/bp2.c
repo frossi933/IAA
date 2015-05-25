@@ -426,7 +426,7 @@ void forward(){
 /* ------------------------------------------------------------------------------ */
 float propagar(float **S,int pat_ini,int pat_fin,int usar_seq){
 
-  float mse=0.0;
+  float mse=0.0, wpen=0.0;
   int patron,nu;
   discrete_error=0.;
   
@@ -452,6 +452,17 @@ float propagar(float **S,int pat_ini,int pat_fin,int usar_seq){
     
   }
   mse /= ( (float)(pat_fin-pat_ini));
+  
+  /****************** codigo agregado ******************/
+  for(i=1;i<=N3;i++)
+      for(j=0; j<=N2; j++)
+          wpen+=w2[i][j]*w2[i][j];
+  for(j=1;j<=N2; j++)
+      for(k=0;k<=N1;k++)
+          wpen+=w1[j][k]*w1[j][k];
+  mse+=GAMMA*wpen;
+  /****************** codigo agregado ******************/
+
   discrete_error /= (float) (pat_fin-pat_ini);
   if(CONTROL>3) {printf("End prop\n");fflush(NULL);}
   return mse;
@@ -567,27 +578,30 @@ int train(char *filename){
                 /****************** codigo agregado ******************/
 	  }
 
-	  
-          /****************** codigo agregado ******************/
-	  /*actualizar el mse*/
-          wpen=0.0;
+          /*actualizar el mse*/
           for( i = 1 ;i<= N3;i++){
 		mse += (x3[i] - target[i]) * (x3[i] - target[i]);
-                for(j = 1; j<=N2; j++){
-                    wpen+=w2[i][j]*w2[i][j];
-                    for(k=1;k<=N1;k++)
-                        wpen+=w1[j][k]*w1[j][k];
-                }
           }
-          mse+=GAMMA*wpen;
-	  /****************** codigo agregado ******************/
-
+          
     }/* next nu1 - barrido sobre patrones*/
 
-
+    /****************** codigo agregado ******************/
+    wpen=0.0;
+    for(i=1;i<=N3;i++)
+        for(j=0; j<=N2; j++)
+            wpen+=w2[i][j]*w2[i][j];
+    for(j=1;j<=N2; j++)
+        for(k=0;k<=N1;k++)
+            wpen+=w1[j][k]*w1[j][k];
+    
+    /****************** codigo agregado ******************/
+          
     /* controles: grabar error cada NERROR iteraciones*/
     if ((iter/NERROR)*NERROR == iter) {
       mse /= ((float)PR);
+
+      mse+=GAMMA*wpen;
+
       mse_train=propagar(data,0,PR,1);
       disc_train=discrete_error;
       /*calcular mse de validacion; si no hay, usar mse_train*/

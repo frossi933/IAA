@@ -1,0 +1,18 @@
+Ejercicio (c):
+""""""""""""""
+
+Para este ejercicio vamos a trabajar realizando tres particiones diferentes de los datos entre los de entrenamiento y los de validacion. Una particion es 50-50, 
+la segunda 75 de entrenamiento 25 de validacion y la ultima 95-5 respectivamente. Como en todos los apartados, para cada caso de analisis se realizan 10 repeticiones
+para luego quedarnos con la que sea mas representativa (en mi caso decidi realizar esta eleccion a partir de la mediana del conjunto de errores discretos)
+En las imagenes adjuntas se pueden ver las graficas de los MSE de train, validacion y test.
+Del caso 95-5 se desprende un claro sobreajuste con el aumento del numero de epocas de entrenamiento. Esto se debe a que el sistema cuenta con una porcion muy chiquita
+de los datos para realizar la validacion y monitorear el avance del algoritmo. Por lo tanto, la red se hace especialista en cuestiones particulares de algunos datos que luego
+en el test no resultan importantes y producen un mayor numero de errores.
+En el caso 75-25 se representa una situacion mas equilibrada, sin sobreajuste y donde los errores tienden a disminuir con el aumento del numero de epocas de entrenamiento,
+pero a lo ultimo la variacion es muy poca y pareciera estancarse en un cierto valor.
+Por ultimo la particion 50-50 representa el otro extremo, donde a igual cantidad de datos para validacion y entrenamiento el sistema no logra capturar la esencia de la 
+clasificacion en clases, esto se observa al ver como el error de entrenamiento decrece continuamente, en un principio mas rapido y luego mas lento, mientras que los 
+errores de validacion y test son bastante mas altos. Otro detalle a observar es el comportamiento de los errores de test y validacion. En primer momento decrecen, 
+luego crecen (formando un minimo local) y posteriormente vuelven a presentar un caracter decreciente. Estoy nos permite ver que no es facil poder determinar cual es el
+minimo valor que podrian tomar estos errores. En otras palabras, no podemos estar seguros de si despues del primer minimo tenemos sobreajuste y debemos cortar, o si
+luego volveran a decrecer con se ven en la ultima grafica.

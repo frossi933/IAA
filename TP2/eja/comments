@@ -1,0 +1,17 @@
+Ejercicia (a)
+"""""""""""""
+
+En el primer apartado enfrentamos el problema de los minimos locales dentro del espacio de hipotesis. A la hora de la busqueda dentro de este espacio, los valores
+de learning rate y momentum son importantes para direccionar la dicha busqueda de diferentes maneras. Por eso se presenta un ejemplo donde vamos variando dichos
+valores y observando los resultados del algoritmo.
+En el archivo "tab" se resumen los errores de test en la epoca de menor error de validacion, para cada combinacion de learning rate y momentum. De aqui obtenemos
+que el que presenta mejores resultados es aquel que toma los siguientes valores:
+
+Learning Rate = 0.05
+Momentum = 0.3
+
+Con estos valores resulta un error discreto de 5.67%
+De esto es posible deducir que el mejor comportamiento esta dado cuando tenemos un equilibrio entre ambos factores. Lo cual hace que la busqueda avance lo suficiente
+como para poder salir de minimos locales y llegar a mejores resultados. El Momentum representa un factor que determina que tanto influyen los cambios anterores sobre
+la actualizacion de los pesos. Mientras que el Learning Rate determina que tanto afecta la instancia actual sobre la actualizacion de los valores, es decir, como su
+nombre lo indica, cuanto se le permite aprender de cada caso de ejemplo.

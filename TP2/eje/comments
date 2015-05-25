@@ -1,0 +1,17 @@
+Ejercicio (e)
+"""""""""""""
+
+En este apartado se presenta el analisis de como influye la dimensionalidad de los datos de entrada en el funcionamiento del sistema. Ademas se realiza una comparacion
+con el otro metodo visto en la unidad anterior que es Arboles de Decision.
+En primer lugar, en la imagen "ann_errors" tenemos las diferentes curvas de los errores(usando redes neuronales), a partir de esta grafica se puede ver como el error 
+de entrenamiento disminuye rapidamente y siempre con valores muy cercanos al cero (comparado con los demas) mostrando como las redes se ajustan cada vez mejor a los datos
+de entrada. Una cuestion central de todo esto es que tener mayor numero de dimensiones en los datos implica tener mayor numero de entradas al sistema, es decir, de neuronas 
+en la primer capa. Esto en principio trae beneficios ya que contamos con mas informacion para que las redes puedan clasificar mejor los datos, pero cuando este numero tiende
+a crecer las redes van perdiendo precision (se observa que los erroes de test crecen) debido a que se cuenta con un monton de datos y las redes terminan creando relaciones 
+inadecuadas entre datos que en la realidad no son influyentes entre si, esto introduce mayores errores en la clasificacion.
+
+A la hora de comparar ambos metodos claramente vemos la gran diferencia del grado de errores que manejan, por lo tanto, el metodo de ANN funciona mejor para este tipo
+de problemas. Fuera de los aspectos de los errores, la ventaja de los arboles de decision es su claro funcionamiento a la hora de tomar una decision,, siendo facil
+de ver para el programador. En cambio las redes presentan un mecanismo mas a caja cerrada, donde a pesar de enteder el algoritmo de entrenamiento no es para nada
+facil entender su funcionamiento. Otro aspecto que las diferencias es la diferencia de tiempo que consumen para entrenar, siendo el caso de las redes neuronales muchisimo
+mayor. Sin embargo, a la hora de realizar la clasificacion ambas son casi instantaneas.

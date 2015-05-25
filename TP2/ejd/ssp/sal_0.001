@@ -10,20 +10,20 @@ Learning Rate: 0.010000
 Momentum: 0.300000
 Frecuencia para grabar resultados: 200 EPOCAS
 Archivo con sinapsis iniciales: 0.WTS
-Semilla para la funcion rand(): 1432500124
+Semilla para la funcion rand(): 1432584858
 Gamma para penalizacion: 0.001000
 
 Fin del entrenamiento.
 
 Error final:
-Entrenamiento(est):0.013825
-Entrenamiento(med):0.008772
-Validacion:0.008772
-Test:0.008240
+Entrenamiento(est):0.013796
+Entrenamiento(med):0.013535
+Validacion:0.013535
+Test:0.013036
 
 Error minimo en validacion:
-Epoca:3400
-Validacion:0.008642
-Test:0.008102
+Epoca:58600
+Validacion:0.013505
+Test:0.013009
 Test discreto:8.411215%
 
