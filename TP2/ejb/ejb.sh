@@ -34,7 +34,7 @@ do
 	echo "0" >> $FILE
 	echo "0" >> $FILE
 	echo "spawn $n neuronas ..."
-	train $n ${1}${I} &
+	train $n ${1}${I}
 	I=$(( $I+1 ))
 done
 

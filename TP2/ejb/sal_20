@@ -1,6 +1,6 @@
 
 Arquitectura de la red: 2:20:1
-Archivo de patrones: ./data/esp3
+Archivo de patrones: data/esp3
 Cantidad total de patrones: 2000
 Cantidad de patrones de entrenamiento: 1600
 Cantidad de patrones de validacion: 400
@@ -10,24 +10,24 @@ Learning Rate: 0.010000
 Momentum: 0.500000
 Frecuencia para grabar resultados: 400 EPOCAS
 Archivo con sinapsis iniciales: 0.WTS
-Semilla para la funcion rand(): 1432237726
+Semilla para la funcion rand(): 1432567571
 Fin del entrenamiento.
 
 Error final:
-Entrenamiento(est):0.083907
-Entrenamiento(med):0.081098
-Validacion:0.105824
-Test:0.092185
+Entrenamiento(est):0.074113
+Entrenamiento(med):0.080864
+Validacion:0.102357
+Test:0.090339
 
 Error minimo en validacion:
-Epoca:39200
-Validacion:0.105054
-Test:3.441498
-Test discreto:45.550001%
+Epoca:36400
+Validacion:0.086427
+Test:0.080451
+Test discreto:7.550000%
 
 
 Arquitectura de la red: 2:20:1
-Archivo de patrones: ./data/esp3
+Archivo de patrones: data/esp3
 Cantidad total de patrones: 2000
 Cantidad de patrones de entrenamiento: 1600
 Cantidad de patrones de validacion: 400
@@ -37,24 +37,51 @@ Learning Rate: 0.010000
 Momentum: 0.500000
 Frecuencia para grabar resultados: 400 EPOCAS
 Archivo con sinapsis iniciales: 0.WTS
-Semilla para la funcion rand(): 1432237788
+Semilla para la funcion rand(): 1432567624
 Fin del entrenamiento.
 
 Error final:
-Entrenamiento(est):0.074358
-Entrenamiento(med):0.070666
-Validacion:0.090898
-Test:0.085711
+Entrenamiento(est):0.095961
+Entrenamiento(med):0.097233
+Validacion:0.110220
+Test:0.111373
+
+Error minimo en validacion:
+Epoca:18000
+Validacion:0.106155
+Test:0.107927
+Test discreto:12.250000%
+
+
+Arquitectura de la red: 2:20:1
+Archivo de patrones: data/esp3
+Cantidad total de patrones: 2000
+Cantidad de patrones de entrenamiento: 1600
+Cantidad de patrones de validacion: 400
+Cantidad de patrones de test: 2000
+Epocas: 40000
+Learning Rate: 0.010000
+Momentum: 0.500000
+Frecuencia para grabar resultados: 400 EPOCAS
+Archivo con sinapsis iniciales: 0.WTS
+Semilla para la funcion rand(): 1432567678
+Fin del entrenamiento.
+
+Error final:
+Entrenamiento(est):0.153210
+Entrenamiento(med):0.150714
+Validacion:0.158369
+Test:0.149501
 
 Error minimo en validacion:
 Epoca:35600
-Validacion:0.085262
-Test:4.840240
-Test discreto:50.000000%
+Validacion:0.153503
+Test:0.149195
+Test discreto:22.700000%
 
 
 Arquitectura de la red: 2:20:1
-Archivo de patrones: ./data/esp3
+Archivo de patrones: data/esp3
 Cantidad total de patrones: 2000
 Cantidad de patrones de entrenamiento: 1600
 Cantidad de patrones de validacion: 400
@@ -64,24 +91,24 @@ Learning Rate: 0.010000
 Momentum: 0.500000
 Frecuencia para grabar resultados: 400 EPOCAS
 Archivo con sinapsis iniciales: 0.WTS
-Semilla para la funcion rand(): 1432237848
+Semilla para la funcion rand(): 1432567732
 Fin del entrenamiento.
 
 Error final:
-Entrenamiento(est):0.158945
-Entrenamiento(med):0.154982
-Validacion:0.155739
-Test:0.165043
+Entrenamiento(est):0.151067
+Entrenamiento(med):0.150266
+Validacion:0.148149
+Test:0.159529
 
 Error minimo en validacion:
-Epoca:40000
-Validacion:0.155739
-Test:0.165043
-Test discreto:28.000000%
+Epoca:27600
+Validacion:0.141978
+Test:0.155950
+Test discreto:23.250000%
 
 
 Arquitectura de la red: 2:20:1
-Archivo de patrones: ./data/esp3
+Archivo de patrones: data/esp3
 Cantidad total de patrones: 2000
 Cantidad de patrones de entrenamiento: 1600
 Cantidad de patrones de validacion: 400
@@ -91,24 +118,24 @@ Learning Rate: 0.010000
 Momentum: 0.500000
 Frecuencia para grabar resultados: 400 EPOCAS
 Archivo con sinapsis iniciales: 0.WTS
-Semilla para la funcion rand(): 1432237904
+Semilla para la funcion rand(): 1432567785
 Fin del entrenamiento.
 
 Error final:
-Entrenamiento(est):0.152728
-Entrenamiento(med):0.150276
-Validacion:0.145416
-Test:0.151241
+Entrenamiento(est):0.095529
+Entrenamiento(med):0.091015
+Validacion:0.102768
+Test:0.103752
 
 Error minimo en validacion:
-Epoca:38000
-Validacion:0.145021
-Test:11.761057
-Test discreto:49.849999%
+Epoca:36400
+Validacion:0.101296
+Test:0.103805
+Test discreto:10.700000%
 
 
 Arquitectura de la red: 2:20:1
-Archivo de patrones: ./data/esp3
+Archivo de patrones: data/esp3
 Cantidad total de patrones: 2000
 Cantidad de patrones de entrenamiento: 1600
 Cantidad de patrones de validacion: 400
@@ -118,24 +145,24 @@ Learning Rate: 0.010000
 Momentum: 0.500000
 Frecuencia para grabar resultados: 400 EPOCAS
 Archivo con sinapsis iniciales: 0.WTS
-Semilla para la funcion rand(): 1432237959
+Semilla para la funcion rand(): 1432567849
 Fin del entrenamiento.
 
 Error final:
-Entrenamiento(est):0.077041
-Entrenamiento(med):0.074398
-Validacion:0.110104
-Test:0.084594
+Entrenamiento(est):0.167923
+Entrenamiento(med):0.166558
+Validacion:0.170795
+Test:0.175091
 
 Error minimo en validacion:
-Epoca:38000
-Validacion:0.108865
-Test:2.138304
-Test discreto:50.449997%
+Epoca:39200
+Validacion:0.167475
+Test:0.172767
+Test discreto:23.800001%
 
 
 Arquitectura de la red: 2:20:1
-Archivo de patrones: ./data/esp3
+Archivo de patrones: data/esp3
 Cantidad total de patrones: 2000
 Cantidad de patrones de entrenamiento: 1600
 Cantidad de patrones de validacion: 400
@@ -145,24 +172,24 @@ Learning Rate: 0.010000
 Momentum: 0.500000
 Frecuencia para grabar resultados: 400 EPOCAS
 Archivo con sinapsis iniciales: 0.WTS
-Semilla para la funcion rand(): 1432238014
+Semilla para la funcion rand(): 1432567903
 Fin del entrenamiento.
 
 Error final:
-Entrenamiento(est):0.091272
-Entrenamiento(med):0.087374
-Validacion:0.106962
-Test:0.097940
+Entrenamiento(est):0.088045
+Entrenamiento(med):0.085310
+Validacion:0.095729
+Test:0.091970
 
 Error minimo en validacion:
-Epoca:36000
-Validacion:0.105559
-Test:5.017715
-Test discreto:57.650000%
+Epoca:36800
+Validacion:0.093588
+Test:0.092587
+Test discreto:9.400000%
 
 
 Arquitectura de la red: 2:20:1
-Archivo de patrones: ./data/esp3
+Archivo de patrones: data/esp3
 Cantidad total de patrones: 2000
 Cantidad de patrones de entrenamiento: 1600
 Cantidad de patrones de validacion: 400
@@ -172,51 +199,24 @@ Learning Rate: 0.010000
 Momentum: 0.500000
 Frecuencia para grabar resultados: 400 EPOCAS
 Archivo con sinapsis iniciales: 0.WTS
-Semilla para la funcion rand(): 1432238068
+Semilla para la funcion rand(): 1432567956
 Fin del entrenamiento.
 
 Error final:
-Entrenamiento(est):0.087828
-Entrenamiento(med):0.091305
-Validacion:0.102646
-Test:0.104761
-
-Error minimo en validacion:
-Epoca:37200
-Validacion:0.099654
-Test:0.099335
-Test discreto:10.900000%
-
-
-Arquitectura de la red: 2:20:1
-Archivo de patrones: ./data/esp3
-Cantidad total de patrones: 2000
-Cantidad de patrones de entrenamiento: 1600
-Cantidad de patrones de validacion: 400
-Cantidad de patrones de test: 2000
-Epocas: 40000
-Learning Rate: 0.010000
-Momentum: 0.500000
-Frecuencia para grabar resultados: 400 EPOCAS
-Archivo con sinapsis iniciales: 0.WTS
-Semilla para la funcion rand(): 1432238122
-Fin del entrenamiento.
-
-Error final:
-Entrenamiento(est):0.085784
-Entrenamiento(med):0.084428
-Validacion:0.091597
-Test:0.089575
+Entrenamiento(est):0.125656
+Entrenamiento(med):0.124890
+Validacion:0.135188
+Test:0.135506
 
 Error minimo en validacion:
 Epoca:37200
-Validacion:0.090107
-Test:5.248247
-Test discreto:50.900000%
+Validacion:0.131619
+Test:0.132673
+Test discreto:21.250001%
 
 
 Arquitectura de la red: 2:20:1
-Archivo de patrones: ./data/esp3
+Archivo de patrones: data/esp3
 Cantidad total de patrones: 2000
 Cantidad de patrones de entrenamiento: 1600
 Cantidad de patrones de validacion: 400
@@ -226,24 +226,24 @@ Learning Rate: 0.010000
 Momentum: 0.500000
 Frecuencia para grabar resultados: 400 EPOCAS
 Archivo con sinapsis iniciales: 0.WTS
-Semilla para la funcion rand(): 1432238180
+Semilla para la funcion rand(): 1432568010
 Fin del entrenamiento.
 
 Error final:
-Entrenamiento(est):0.093580
-Entrenamiento(med):0.093077
-Validacion:0.099318
-Test:0.106030
+Entrenamiento(est):0.126323
+Entrenamiento(med):0.127687
+Validacion:0.131175
+Test:0.131498
 
 Error minimo en validacion:
-Epoca:38400
-Validacion:0.096181
-Test:0.103464
-Test discreto:12.750000%
+Epoca:38800
+Validacion:0.125746
+Test:0.130515
+Test discreto:18.449999%
 
 
 Arquitectura de la red: 2:20:1
-Archivo de patrones: ./data/esp3
+Archivo de patrones: data/esp3
 Cantidad total de patrones: 2000
 Cantidad de patrones de entrenamiento: 1600
 Cantidad de patrones de validacion: 400
@@ -253,18 +253,18 @@ Learning Rate: 0.010000
 Momentum: 0.500000
 Frecuencia para grabar resultados: 400 EPOCAS
 Archivo con sinapsis iniciales: 0.WTS
-Semilla para la funcion rand(): 1432238234
+Semilla para la funcion rand(): 1432568063
 Fin del entrenamiento.
 
 Error final:
-Entrenamiento(est):0.095992
-Entrenamiento(med):0.097495
-Validacion:0.117226
-Test:0.110942
+Entrenamiento(est):0.124149
+Entrenamiento(med):0.122145
+Validacion:0.127847
+Test:0.135433
 
 Error minimo en validacion:
-Epoca:37200
-Validacion:0.107892
-Test:12.417998
-Test discreto:52.550000%
+Epoca:30000
+Validacion:0.122623
+Test:0.134154
+Test discreto:20.250000%
 
