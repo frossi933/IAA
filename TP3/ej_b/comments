@@ -1,0 +1,10 @@
+Ejercicio 2
+"""""""""""
+
+En este apartado comparamos todos los metodos vistos hasta el momento, mediante sus comportamientos con respecto al numero de dimensiones
+del problema a resolver.
+Primero analicemos al clasificador Bayesiano por su cuenta. En el archivo NB_error.png vemos una grafica de los errores de test y train
+con respecto al numero de dimensiones y separados por cada problema (problemas paralelo y diagonal). En ambos problema se ve como los 
+dos tipos de errores se alejan, es decir, el error de entrenamiento tiende a bajar a medida que aumenta el numero de dimensiones y el
+error de test tiende a subir en las mismas circunstancias.
+

@@ -1,4 +1,7 @@
 /*
+ * modificacion para usar histogramas para el calculo de p(a|C)
+ * 
+ * 
 nb_n.c : Clasificador Naive Bayes usando la aproximacion de funciones normales para features continuos
 Formato de datos: c4.5
 La clase a predecir tiene que ser un numero comenzando de 0: por ejemplo, para 3 clases, las clases deben ser 0,1,2
@@ -9,6 +12,7 @@ PMG - Ultima revision: 20/06/2001
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #define LOW 1.e-14                 /*Minimo valor posible para una probabilidad*/
@@ -33,6 +37,9 @@ int CONTROL;        /* nivel de verbosity: 0 -> solo resumen, 1 -> 0 + pesos, 2 
 
 int N_TOTAL;                      /*Numero de patrones a usar durante el entrenamiento*/
 
+
+int N_BINS;          /* numero de bins para armar el histograma */
+
 /*matrices globales  DECLARAR ACA LAS MATRICES NECESARIAS */
 
 double **data;                     /* train data */
@@ -41,11 +48,13 @@ int    *pred;                     /* clases predichas */
 
 
 double *class_prob;                 /* probabilidades de cada clase */
-double **class_u;                   /* media de cada atributo por cada clase */
-double **class_d;                   /* desv estandar de cada atributo por cada clase */
 
 
 int *seq;      	       		  /* sequencia de presentacion de los patrones*/
+
+double *min_at, *max_at;          /* arreglo con los atributos min y max */
+double ***bins_prob;              /* probabilidades de cada bin de cada atributo de cada clase */
+
 
 /*variables globales auxiliares*/
 char filepat[100];
@@ -82,14 +91,16 @@ int define_matrix(){
   }
 
 /*ALLOCAR ESPACIO PARA LAS MATRICES DEL ALGORITMO*/
+
   class_prob=(double *)calloc(N_Class, sizeof(double));
-  class_u=(double **)malloc(N_Class*sizeof(double *));
-  for(i=0;i<N_Class;i++)
-      class_u[i]=(double *)calloc(N_IN,sizeof(double));
-  class_d=(double **)malloc(N_Class*sizeof(double *));
-  for(i=0;i<N_Class;i++)
-      class_d[i]=(double *)calloc(N_IN,sizeof(double));
-  
+  min_at=(double *)calloc(N_IN, sizeof(double));
+  max_at=(double *)calloc(N_IN, sizeof(double));
+  bins_prob=(double ***)malloc(sizeof(double **)*N_Class);
+  for(i=0;i<N_Class;i++){
+    bins_prob[i]=(double **)malloc(N_IN * sizeof(double *));
+    for(j=0;j<N_IN;j++)
+      bins_prob[i][j]=(double *)calloc(N_BINS, sizeof(double));
+  }
   
   return 0;
 }
@@ -124,6 +135,9 @@ int arquitec(char *filename){
 
   /* Nivel de verbosity*/
   fscanf(b,"%d",&CONTROL);
+  
+  /* Numero de Bins */
+  fscanf(b,"%d",&N_BINS);
 
   fclose(b);
 
@@ -146,7 +160,8 @@ int arquitec(char *filename){
   printf("\nCantidad de patrones de entrenamiento: %d",PR);
   printf("\nCantidad de patrones de validacion: %d",PTOT-PR);
   printf("\nCantidad de patrones de test: %d",PTEST);
-  printf("\nSemilla para la funcion rand(): %d",SEED); 
+  printf("\nSemilla para la funcion rand(): %d",SEED);
+  printf("\nNumero de Bins: %d", N_BINS);
 
   return 0;
 }
@@ -177,11 +192,27 @@ int read_data(char *filename){
     for(i=0;i<N_IN+1;i++){
       fscanf(fpat,"%lf",&valor);
       data[k][i]=valor;
+      
+      /* guardo los min y los max */
+      if(k>0 && i<N_IN){
+        if(valor < min_at[i])
+          min_at[i]=valor;
+        else if(valor > max_at[i])
+          max_at[i]=valor;
+      }
+      
       if(CONTROL>1) printf("%lf\t",data[k][i]);
       separador=getc(fpat);
       if(separador!=',') ungetc(separador,fpat);
     }
+    
+    /* inicializamos el min y max */
+    if(k==0){
+        memcpy(min_at, data[0],N_IN*sizeof(double));
+        memcpy(max_at, data[0],N_IN*sizeof(double));
+    }
   }
+  
   fclose(fpat);
 
   if(!PTEST) return 0;
@@ -243,9 +274,8 @@ void shuffle(int hasta){
 double prob(double x,int feature,int clase)  {
 
   /*IMPLEMENTAR*/
-  double d = class_d[clase][feature];
-  double u = class_u[clase][feature];
-  return ( 0.5 * (1.0 / d) * M_2_SQRTPI * M_SQRT1_2 * exp(-0.5 * pow((x - u)/d, 2)) );                    // M_2_SQRTPI -> 2/sqrt(PI) , M_SQRT1_2 -> 1/sqrt(2) 
+  int nbin=floor((x - min_at[feature]) / ((max_at[feature] - min_at[feature]) / (double)N_BINS) );
+  return bins_prob[clase][feature][nbin];
 
 }
 /* ------------------------------------------------------------------------------ */
@@ -319,14 +349,14 @@ double propagar(double **S,int pat_ini,int pat_fin,int usar_seq){
 /* --------------------------------------------------------------------------------------- */
 int train(char *filename){
 
-  int feature,clase, iter, at;
+  int feature,clase, iter, at,iterr;
   double sigma,me;
   double train_error,valid_error,test_error;
   FILE *salida,*fpredic;
 
   /*Asigno todos los patrones del .data como entrenamiento porque este metodo no requiere validacion*/
-  N_TOTAL=PTOT;
-  /*N_TOTAL=PR; si hay validacion*/
+  /*N_TOTAL=PTOT;  si no hay validacion*/
+  N_TOTAL=PR; 
   for(k=0;k<PTOT;k++) seq[k]=k;  /* inicializacion del indice de acceso a los datos */
 
   /*efectuar shuffle inicial de los datos de entrenamiento si SEED != -1 (y hay validacion)*/
@@ -346,32 +376,24 @@ int train(char *filename){
   for(iter=0;iter<N_Class;iter++)
     class_prob[iter]/=N_TOTAL;
 
-  /*Calcular media y desv.est. por clase y cada atributo*/
   int *n_class=(int *)calloc(N_Class,sizeof(int));
-
-  /* Media */
+  
+  /* calculamos la prob de cada bin de cada atributo */
   for(iter=0;iter<N_TOTAL;iter++){
-    c = (int) data[seq[iter]][N_IN];
+    c = (int)data[seq[iter]][N_IN];
     n_class[c]++;
-    for(at=0;at<N_IN;at++)
-      class_u[c][at]+=data[seq[iter]][at];
+    for(at=0;at<N_IN;at++){
+      int nbin = floor((data[seq[iter]][at] - min_at[at]) / ((max_at[at] - min_at[at]) / (double)N_BINS));
+      bins_prob[c][at][nbin]++;
+    }
   }
-  for(iter=0;iter<N_Class;iter++)
+  for(iterr=0;iterr<N_Class;iterr++){
     for(at=0;at<N_IN;at++)
-      class_u[iter][at]/=(double)n_class[iter];
-
-  /* Desvio estandar */
-  for(iter=0;iter<N_TOTAL;iter++){
-    c = (int) data[seq[iter]][N_IN];
-    for(at=0;at<N_IN;at++)
-      class_d[c][at]+=pow(class_u[c][at] - data[seq[iter]][at], 2);
+      for(iter=0;iter<N_BINS;iter++){
+        bins_prob[iterr][at][iter]++;                               // para hacer la correccion 1/p-estimated
+        bins_prob[iterr][at][iter]/=(n_class[iterr] + N_BINS);      // m = 1/p = N_BINS
+      }
   }
-  for(iter=0;iter<N_Class;iter++)
-    for(at=0;at<N_IN;at++)
-      class_d[iter][at]= sqrt( class_d[iter][at] / (double)n_class[iter] );
-    
-    
-
 
   /*calcular error de entrenamiento*/
   train_error=propagar(data,0,PR,1);

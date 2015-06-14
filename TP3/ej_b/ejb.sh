@@ -1,7 +1,7 @@
 #!/bin/bash
 # borramos archivos anteriores y aplico el clasificador bayesiano
 
-NB=/home/chino/Desktop/IAA/TP3/ej_a/nb_c
+NB=/home/chino/Desktop/IAA/TP3/ej_a/nb_n
 TAB=/home/chino/Desktop/IAA/TP3/ej_b/res_nb
 touch $TAB
 
