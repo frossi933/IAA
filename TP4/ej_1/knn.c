@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "kdtree.h"
+
 #define LOW 1.e-14                 /*Minimo valor posible para una probabilidad*/
 
 
@@ -27,21 +29,17 @@ int SEED;           /* semilla para la funcion rand(). Los posibles valores son:
                               0: Seleccionar semilla con el reloj, y mezclar los patrones.
                              >0: Usa el numero leido como semilla, y mezcla los patrones. */
 
-int CONTROL;        /* nivel de verbosity: 0 -> solo resumen, 1 -> 0 + pesos, 2 -> 1 + datos*/
-
+int K;              /* Numero de vecinos */
+                    
 int N_TOTAL;                      /*Numero de patrones a usar durante el entrenamiento*/
 
 /*matrices globales  DECLARAR ACA LAS MATRICES NECESARIAS */
 
-double **data;                     /* train data */
-double **test;                     /* test  data */
-int    *pred;                     /* clases predichas */
+Data    *train_data;                     /* train data */
+Data    *test_data;                     /* test  data */
+int     *pred;                     /* clases predichas */
 
-
-double *class_prob;                 /* probabilidades de cada clase */
-double **class_u;                   /* media de cada atributo por cada clase */
-double **class_d;                   /* desv estandar de cada atributo por cada clase */
-
+KDTree  *tree_data;                 /* arbol con los datos de entrenamiento */
 
 int *seq;      	       		  /* sequencia de presentacion de los patrones*/
 
@@ -56,7 +54,7 @@ char filepat[100];
 /* -------------------------------------------------------------------------- */
 int define_matrix(){
 
-  int max;
+  int max, i;
   if(PTOT>PTEST) max=PTOT;
   else max=PTEST;
 
@@ -64,29 +62,19 @@ int define_matrix(){
   pred=(int *)calloc(max,sizeof(int));
   if(seq==NULL||pred==NULL) return 1;
   
-  data=(double **)calloc(PTOT,sizeof(double *));
-  if(PTEST) test=(double **)calloc(PTEST,sizeof(double *));
-  if(data==NULL||(PTEST&&test==NULL)) return 1;
+  train_data=(Data *)calloc(PTOT,sizeof(Data));
+  if(PTEST) test_data=(Data *)calloc(PTEST,sizeof(Data));
+  if(train_data==NULL ||(PTEST&&test_data==NULL)) return 1;
 
   for(i=0;i<PTOT;i++){
-    data[i]=(double *)calloc(N_IN+1,sizeof(double));
-	if(data[i]==NULL) return 1;
+    train_data[i]=(Data)calloc(N_IN+1,sizeof(double));
+	if(train_data[i]==NULL) return 1;
   }
   for(i=0;i<PTEST;i++){
-    test[i]=(double *)calloc(N_IN+1,sizeof(double));
-	if(test[i]==NULL) return 1;
+    test_data[i]=(Data)calloc(N_IN+1,sizeof(double));
+	if(test_data[i]==NULL) return 1;
   }
 
-/*ALLOCAR ESPACIO PARA LAS MATRICES DEL ALGORITMO*/
-  class_prob=(double *)calloc(N_Class, sizeof(double));
-  class_u=(double **)malloc(N_Class*sizeof(double *));
-  for(i=0;i<N_Class;i++)
-      class_u[i]=(double *)calloc(N_IN,sizeof(double));
-  class_d=(double **)malloc(N_Class*sizeof(double *));
-  for(i=0;i<N_Class;i++)
-      class_d[i]=(double *)calloc(N_IN,sizeof(double));
-  
-  
   return 0;
 }
 /* ---------------------------------------------------------------------------------- */
@@ -98,10 +86,9 @@ int arquitec(char *filename){
   time_t t;
 
   /*Paso 1:leer el archivo con la configuracion*/
-  sprintf(filepat,"%s.nb",filename);
+  sprintf(filepat,"%s.info",filename);
   b=fopen(filepat,"r");
-  error=(b==NULL);
-  if(error){
+  if(b==NULL){
     printf("Error al abrir el archivo de parametros\n");
     return 1;
   }
@@ -118,15 +105,14 @@ int arquitec(char *filename){
   /* Semilla para la funcion rand()*/
   fscanf(b,"%d",&SEED);
 
-  /* Nivel de verbosity*/
-  fscanf(b,"%d",&CONTROL);
-
+  /* Numero K de vecinos a considerar */
+  fscanf(b,"%d",&K);
+  
   fclose(b);
 
 
   /*Paso 2: Definir matrices para datos y parametros (e inicializarlos*/
-  error=define_matrix();
-  if(error){
+  if(define_matrix()){
     printf("Error en la definicion de matrices\n");
     return 1;
   }
@@ -135,14 +121,15 @@ int arquitec(char *filename){
   if(SEED==0) SEED=time(&t);
 
   /*Imprimir control por pantalla*/
-  printf("\nNaive Bayes con distribuciones normales:\nCantidad de entradas:%d",N_IN);
+  printf("\nInstance Based Learning - K Nearest neighbors\nCantidad de entradas:%d",N_IN);
   printf("\nCantidad de clases:%d",N_Class);
   printf("\nArchivo de patrones: %s",filename);
   printf("\nCantidad total de patrones: %d",PTOT);
   printf("\nCantidad de patrones de entrenamiento: %d",PR);
   printf("\nCantidad de patrones de validacion: %d",PTOT-PR);
   printf("\nCantidad de patrones de test: %d",PTEST);
-  printf("\nSemilla para la funcion rand(): %d",SEED); 
+  printf("\nSemilla para la funcion rand(): %d",SEED);
+  printf("\nNumero de vecinos: %d", K);
 
   return 0;
 }
@@ -157,23 +144,19 @@ int read_data(char *filename){
   FILE *fpat;
   double valor;
   int separador;
+  int i,k;
 
   sprintf(filepat,"%s.data",filename);
   fpat=fopen(filepat,"r");
-  error=(fpat==NULL);
-  if(error){
+  if(fpat==NULL){
     printf("Error al abrir el archivo de datos\n");
     return 1;
   }
 
-  if(CONTROL>1) printf("\n\nDatos de entrenamiento:");
-
   for(k=0;k<PTOT;k++){
-    if(CONTROL>1) printf("\nP%d:\t",k);
     for(i=0;i<N_IN+1;i++){
       fscanf(fpat,"%lf",&valor);
-      data[k][i]=valor;
-      if(CONTROL>1) printf("%lf\t",data[k][i]);
+      train_data[k][i]=valor;
       separador=getc(fpat);
       if(separador!=',') ungetc(separador,fpat);
     }
@@ -184,20 +167,15 @@ int read_data(char *filename){
 
   sprintf(filepat,"%s.test",filename);
   fpat=fopen(filepat,"r");
-  error=(fpat==NULL);
-  if(error){
+  if(fpat==NULL){
     printf("Error al abrir el archivo de test\n");
     return 1;
   }
 
-  if(CONTROL>1) printf("\n\nDatos de test:");
-
   for(k=0;k<PTEST;k++){
-    if(CONTROL>1) printf("\nP%d:\t",k);
     for(i=0;i<N_IN+1;i++){
       fscanf(fpat,"%lf",&valor);
-      test[k][i]=valor;
-      if(CONTROL>1) printf("%lf\t",test[k][i]);
+      test_data[k][i]=valor;
       separador=getc(fpat);
       if(separador!=',') ungetc(separador,fpat);
     }
@@ -229,50 +207,46 @@ void shuffle(int hasta){
 	seq[select] = tmp;
 	top --;
    }
-  if(CONTROL>3) {printf("End shuffle\n");fflush(NULL);}
 }
 
-/* ------------------------------------------------------------------- */
-/*Prob:Calcula la probabilidad de obtener el valor x para el input feature y la clase clase
-  Aproxima las probabilidades por distribuciones normales */
-/* ------------------------------------------------------------------- */
-double prob(double x,int feature,int clase)  {
-
-  /*IMPLEMENTAR*/
-  double d = class_d[clase][feature];
-  double u = class_u[clase][feature];
-  return ( 0.5 * (1.0 / d) * M_2_SQRTPI * M_SQRT1_2 * exp(-0.5 * pow((x - u)/d, 2)) );                    // M_2_SQRTPI -> 2/sqrt(PI) , M_SQRT1_2 -> 1/sqrt(2) 
-
-}
 /* ------------------------------------------------------------------------------ */
 /*output: calcula la probabilidad de cada clase dado un vector de entrada *input
   usa el log(p(x)) (sumado)
   devuelve la de mayor probabilidad                                               */
 /* ------------------------------------------------------------------------------ */
-int output(double *input){
+int output(Data input){
    	
-  double prob_de_clase;
-  double max_prob=-1e40;
-  int clase_MAP;
+  int i, j, c, best=0;
+  Data *nearest = kdtree_k_nearest(tree_data, input, K, N_IN);
   
-  for(k=0;k<N_Class;k++) {
-    prob_de_clase=0.;
-
-    /*calcula la probabilidad de cada feature individual dada la clase y la acumula*/
-    for(i=0;i<N_IN;i++) prob_de_clase += log( prob( input[i] ,i ,k ) );
-
-    /*agrega la probabilidad a priori de la clase*/
-    /*COMPLETAR*/
-    prob_de_clase += log(class_prob[k]);
-
-    /*guarda la clase con prob maxima*/
-    if (prob_de_clase>=max_prob){
-      max_prob=prob_de_clase;
-      clase_MAP=k;
-    }
+#ifdef DEBUG
+  printf("\nnearest de %f %f:\t",input[0], input[1]);
+  for(i=0;i<K;i++){
+    printf("%f %f ;",nearest[i][0],nearest[i][1]);
+      
+  }
+#endif
+  
+  int *pos = calloc(N_Class, sizeof(int));                  // posiciones de cercania... arranca en 1
+  int *cant = calloc(N_Class, sizeof(int));
+  
+  for(i=0;i<K;i++){
+    c=(int)nearest[i][N_IN];
+    cant[c]++;
+    if(pos[c]==0)
+        pos[c]=i+1;
   }
   
-  return clase_MAP;
+  /* elijo el mayor, y en caso de empate elijo la clase del punto mas cercano entre ellos */
+  for(i=0;i<N_Class;i++){
+    if(cant[i]>best){
+        c=i;
+        best=cant[i];
+    } else if(cant[i]==best && pos[i] < pos[c])
+        c=i;
+  }
+  
+  return c;
 }
 /* ------------------------------------------------------------------------------ */
 /*propagar: calcula las clases predichas para un conjunto de datos
@@ -281,118 +255,45 @@ int output(double *input){
   usar_seq define si se accede a los datos directamente o a travez del indice seq
   los resultados (las propagaciones) se guardan en la matriz seq                  */
 /* ------------------------------------------------------------------------------ */
-double propagar(double **S,int pat_ini,int pat_fin,int usar_seq){
+double propagar(Data *S, int pat_ini, int pat_fin, int usar_seq){
 
-  double mse=0.0;
+  double err=0.0;
   int nu;
   int patron;
   
-  for (patron=pat_ini; patron < pat_fin; patron ++) {
+  for (patron=pat_ini; patron<pat_fin; patron++) {
 
    /*nu tiene el numero del patron que se va a presentar*/
     if(usar_seq) nu = seq[patron];
     else         nu = patron;
 
-    /*clase MAP para el patron nu*/
+    /* clase para el patron nu */
     pred[nu]=output(S[nu]);
 
     /*actualizar error*/
-    if(S[nu][N_IN]!=(double)pred[nu]) mse+=1.;
+    if(S[nu][N_IN]!=(double)pred[nu]) err+=1.;
   }
     
-
-  mse /= ( (double)(pat_fin-pat_ini));
-
-  if(CONTROL>3) {printf("End prop\n");fflush(NULL);}
-
-  return mse;
+  err /= ( (double)(pat_fin-pat_ini));
+  return err;
 }
 
-/* --------------------------------------------------------------------------------------- */
-/*train: ajusta los parametros del algoritmo a los datos de entrenamiento
-         guarda los parametros en un archivo de control
-         calcula porcentaje de error en ajuste y test                                      */
-/* --------------------------------------------------------------------------------------- */
-int train(char *filename){
-
-  int feature,clase, iter, at;
-  double sigma,me;
-  double train_error,valid_error,test_error;
-  FILE *salida,*fpredic;
-
-  /*Asigno todos los patrones del .data como entrenamiento porque este metodo no requiere validacion*/
-  N_TOTAL=PTOT;
-  /*N_TOTAL=PR; si hay validacion*/
-  for(k=0;k<PTOT;k++) seq[k]=k;  /* inicializacion del indice de acceso a los datos */
-
-  /*efectuar shuffle inicial de los datos de entrenamiento si SEED != -1 (y hay validacion)*/
-  if(SEED>-1 && N_TOTAL<PTOT){
-    srand((unsigned)SEED);    
-    shuffle(PTOT);
-  }
-
-
-  /*Calcular probabilidad intrinseca de cada clase*/
-  int c;
-  for(iter=0;iter<N_TOTAL;iter++){
-    c = (int) data[seq[iter]][N_IN];
-    class_prob[c]++;
-  }
+int predic(char *filename){
+    
+  FILE *fpredic;
+  int k,i;
   
-  for(iter=0;iter<N_Class;iter++)
-    class_prob[iter]/=N_TOTAL;
-
-  /*Calcular media y desv.est. por clase y cada atributo*/
-  int *n_class=(int *)calloc(N_Class,sizeof(int));
-
-  /* Media */
-  for(iter=0;iter<N_TOTAL;iter++){
-    c = (int) data[seq[iter]][N_IN];
-    n_class[c]++;
-    for(at=0;at<N_IN;at++)
-      class_u[c][at]+=data[seq[iter]][at];
-  }
-  for(iter=0;iter<N_Class;iter++)
-    for(at=0;at<N_IN;at++)
-      class_u[iter][at]/=(double)n_class[iter];
-
-  /* Desvio estandar */
-  for(iter=0;iter<N_TOTAL;iter++){
-    c = (int) data[seq[iter]][N_IN];
-    for(at=0;at<N_IN;at++)
-      class_d[c][at]+=pow(class_u[c][at] - data[seq[iter]][at], 2);
-  }
-  for(iter=0;iter<N_Class;iter++)
-    for(at=0;at<N_IN;at++)
-      class_d[iter][at]= sqrt( class_d[iter][at] / (double)n_class[iter] );
-    
-    
-
-
-  /*calcular error de entrenamiento*/
-  train_error=propagar(data,0,PR,1);
-  /*calcular error de validacion; si no hay, usar mse_train*/
-  if(PR==PTOT) valid_error=train_error;
-  else         valid_error=propagar(data,PR,PTOT,1);
-  /*calcular error de test (si hay)*/
-  if (PTEST>0) test_error =propagar(test,0,PTEST,0);
-  else         test_error =0.;
-  /*mostrar errores*/
-  printf("\nFin del entrenamiento.\n\n");
-  printf("Errores:\nEntrenamiento:%f%%\n",train_error*100.);
-  printf("Validacion:%f%%\nTest:%f%%\n",valid_error*100.,test_error*100.);
-  if(CONTROL) fflush(NULL);
-
   /* archivo de predicciones */
   sprintf(filepat,"%s.predic",filename);
   fpredic=fopen(filepat,"w");
-  error=(fpredic==NULL);
-  if(error){
-    printf("Error al abrir archivo para guardar predicciones\n");
-    return 1;
+  if(fpredic==NULL){
+      printf("Error al abrir archivo para guardar predicciones\n");
+      return 1;
   }
-  for(k=0; k < PTEST ; k++){
-    for( i = 0 ;i< N_IN;i++) fprintf(fpredic,"%f\t",test[k][i]);
+  
+  for(k=0; k<PTEST ; k++){
+    for(i=0;i<N_IN;i++) 
+      fprintf(fpredic,"%f\t",test_data[k][i]);
     fprintf(fpredic,"%d\n",pred[k]);
   }
   fclose(fpredic);
@@ -403,9 +304,11 @@ int train(char *filename){
 /* ----------------------------------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------- */
 int main(int argc, char **argv){
+    
+  float train_error, test_error, valid_error;
 
   if(argc!=2){
-    printf("Modo de uso: knn <K> <filename>\ndonde:\tfilename es el nombre del archivo (sin extension)\n\tK es el numero de vecinos a considerar\n");
+    printf("Modo de uso: knn <filename>\ndonde:\tfilename es el nombre del archivo (sin extension)\n");
     return 0;
   }
 
@@ -421,12 +324,30 @@ int main(int argc, char **argv){
     return 1;
   }
 
-  /* ajusto los parametros y calcula errores en ajuste y test*/
-  if(train(argv[1])){
-    printf("Error en el ajuste\n");
+  /* creo el arbol k-d con los datos */
+  tree_data = kdtree_fromList(train_data, PTOT, N_IN);
+  
+  /* calculo errores */
+  train_error=propagar(train_data,0,PR,0);  // usar seq
+  if(PR==PTOT)
+      valid_error=0.0;
+  else  
+      valid_error=propagar(train_data,PR,PTOT,0);   // usar usar_seq
+  
+  if(PTEST>0)
+      test_error=propagar(test_data,0,PTEST,0);
+  else
+      test_error=0.0;
+  
+  if(predic(argv[1])){
+    printf("Error en la prediccion\n");
     return 1;
   }
 
+  printf("\nFin del algoritmo.\n\n");
+  printf("Errores:\nEntrenamiento:%f%%\n",train_error*100.);
+  printf("Validacion:%f%%\nTest:%f%%\n",valid_error*100.,test_error*100.);
+  
   return 0;
 }
 /* ----------------------------------------------------------------------------------------------------- */
