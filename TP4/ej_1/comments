@@ -1,0 +1,8 @@
+Ejercicio 1
+"""""""""""
+
+En este ejercicio tenemos la implementacion del metodo de clasificacion de k-nn. Para realizar esto he decidido usar un arbol KDTree para ordenar los datos de entrenamiento.
+Este arbol de encarga de hacer una division espacial de los mismos para despues ganar performance a la hora de obtener los mas cercanos ya que evita un gran numero de
+comparaciones con aquellos puntos que se encuentran en secciones (nodos del arbol) alejadas del mismo. Este algoritmo brinda muchas mejoras para cuando tenemos un K bastante
+chico comparado con el numero de muestras y para pocas dimensiones preferentemente. En caso de tener un K demasiado grande o muchas dimensiones es comparable a la fuerza bruta
+Para desempatar las votaciones de clases he decidido tomar, entre las clases empatadas, aquella a la cual pertenece el punto mas cercano.

@@ -1,0 +1,19 @@
+Ejercicio 3
+"""""""""""
+
+En este apartado vamos a comparar los diferentes metodos vistos hasta el momento para el problema de clases separadas paralela y diagonalmente.
+Primero comparemos el comportamiento del metodo knn para k=1 y para un k optimo (determinamos el k optimo para cada numero de dimension en particular) 
+segun un conjunto de validacion. En las imagenes errors_k_1.png y errors_k_valid.png estan, respectivamente, los resultados obtenidos en cuanto a errores 
+de test y train. En primer lugar, cabe aclarar que el error de train de k=1 es siempre cero ya que el mismo punto sobre el que se hace la prueba ya pertenece
+a los datos de entrenamiento y como solo obtenemos el mas cercano, es el mismo y define su misma clase. Para el k optimo, los errores de entrenamiento ya no 
+son cero, sino que van variando, se mantienen por debajo de los de test pero presentan un orden creciente con respecto al numero de dimensiones.
+Lo mas destacado es que en lineas generales con los k optimos se obtienen mejores resultados que con k=1, en ambos problemas. Donde ademas no se presentan
+grandes diferencias entre los problemas, ya que solo cambia la orientacion de los puntos y como el algoritmo no realiza cortes de acuerdo a los ejes o algo
+parecido esto no afecta. Tambien los errores de test son de caracter creciente a medida que aumenta el numero de dimensiones de los datos. Esto podria deberse
+a que el aumento de este ultimo hace que los puntos tiendan a dispersarse mas ya que contienen mas atributos y por lo tanto la cercania implica cada vez menos
+relacion entre las clases y va perdiendo precision el metodo.
+
+Ahora consideremos todos los metodos implementados. Para tener una grafica mas limpia solo se incluyen los errores de test de cada uno. Aca podemos ver que el
+resultado obtenido es bastante bueno, se encuentra casi al mismo nivel que Naive Bayes, cercano al limite de rendimiento para estos problemas. 
+Ademas presenta un buen comportamiento para ambos problemas (por las circunstancias expuestas anteriormente). Y por ultimo no varia demasiado su error con el 
+aumento de la dimensionalidad, como si lo hace por ejemplo el Decision Tree o ANN.

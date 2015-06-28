@@ -1,0 +1,13 @@
+Ejercicio 2
+"""""""""""
+
+En este caso aplicamos el metodo al dataset de las espirales anidadas para luego comparar los resultados con los de redes neuronales. El k seleccionada es 1.
+Claramente podemos observar que el resultado obtenido es muy bueno (error de test igual a 6% aproximadamente), el grafico es casi exacto, salvo en los limites de
+clases que es donde se producen los errores. Esto se debe a que la clasificacion es guiada por los vecinos de cada punto, por lo tanto cuanto mas nos adentramos 
+en una de las espirales es imposible tener el punto mas cercana de otra clase. Esto si sucede en los limites, donde tranquilamente puede suceder que el punto mas 
+cercano sea de otra clase.
+
+Con respecto al resultado obtenido con redes, en este metodo obtenemos un error de test menor ya que el mejor de redes (40 neuronas intermedias) llegaba a 9% aprox.
+Ademas, por la naturaleza de los algoritmos podemos ver que en el caso de redes es posible ver errores de clasificacion en puntos adentrados en las franjas de cada
+espiral. Esto es imposible que suceda para el metodo knn por lo explicado anteriormente. Por lo tanto podemos concluir que para este tipo de problemas de clasificacion
+este metodo funciona muy bien a un costo relativamente bajo.

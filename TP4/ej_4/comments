@@ -1,0 +1,10 @@
+Ejercicio 4
+"""""""""""
+
+En este ejercicio opcional se implementa una version diferente del metodo, donde se consideran los vecinos que se encuentran a una distancia menor
+o igual a D, el cual es un parametro mas de entrada del algoritmo. Nuevamente, se calcula el D optimo para cada caso de dimensionalidad y luego se
+hacen las pruebas para finalmente comparar los resultados con el knn. Para implementar esta version tambien hago uso de un KDTree y, en este caso,
+resulta un poco mas facil la busqueda de los vecinos dentro de ese radio. En caso de empate he optado por elegir de manera aleatoria entre las clases
+empatadas en lugar de considerar las distancias.
+Finalmente en el archivo knn_dnn.png se encuentra un grafico con los rendimientos de cada uno considerando los errores de prueba. Claramente se desprende
+que ambos algoritmos tienen un comportamiento practicamente equivalente, sin mostrar grandes diferencias, al menos para problemas como estos.
