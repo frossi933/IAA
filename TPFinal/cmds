@@ -1,0 +1,9 @@
+for i in {0..9} ; do mkdir cmc_aux$i ; cat set[^$i].example > cmc_aux${i}/train.data ; cp set${i}.example cmc_aux${i}/test.data ; done
+for i in {0..9} ; do ./dataToExampleEsp.sh cmc_aux${i}/train ; ./dataToExampleEsp.sh cmc_aux${i}/test ; done
+for i in {0..9} ; do cp cmc_aux/cmc.names cmc_aux${i}/cmc.names ; done
+
+R:
+mydata=read.table("tab")
+v<-c(mydata[2])
+mean(as.numeric(unlist(mydata[2])))
+sd(as.numeric(unlist(mydata[2])))

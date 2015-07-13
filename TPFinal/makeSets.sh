@@ -1,5 +1,5 @@
 #!/bin/bash
-# transformo el archivo .data al archivo de ejemplo necesario para svmlight
+
 
 C0=${1}0.data
 C1=${1}1.data

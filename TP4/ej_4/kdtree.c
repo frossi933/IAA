@@ -5,8 +5,6 @@
 
 #include "kdtree.h"
 
-#define INITIAL_ALLOC       5
-
 typedef struct {
     Data    data;
     double   dist;
@@ -138,7 +136,7 @@ Data *kdtree_k_nearest(KDTree *tree, Data d, int k, int n_atr){
     for(i=0;i<k;i++){
         res[i] = (DataDist *)malloc(sizeof(DataDist));
         res[i]->data=NULL;
-        res[i]->dist=1000.0;
+        res[i]->dist=FLT_MAX;
     }
     k_nearest_rec(tree, d, k, res, n_atr, 0);
     for(i=0;i<k;i++)
@@ -149,17 +147,16 @@ Data *kdtree_k_nearest(KDTree *tree, Data d, int k, int n_atr){
 }
 
 /* guardo en res toda la lista de los n_near puntos dentro de la distancia d */
-nearer_rec(KDTree *tree, Data input, double d, DataDist **res, int n_atr, int deep){
+void nearer_rec(KDTree *tree, Data input, double d, Data **res, int n_atr, int deep){
 
     if(tree == NULL)
         return;
     else if(kdtree_isLeaf(tree)){
         double dst = distance(tree->data, input, n_atr);
         if(dst < d){
-            res=(DataDist **)realloc(res, ++n_near);
-            res[n_near-1]=(DataDist *)malloc(sizeof(DataDist));
-            res[n_near-1]->data=tree->data;
-            res[n_near-1]->dist=dst;
+            n_near++;
+            *res=(Data *)realloc(*res, n_near*sizeof(Data));
+            (*res)[n_near-1]=tree->data;
         }
     } else {
         int atr = deep % n_atr;
@@ -168,13 +165,12 @@ nearer_rec(KDTree *tree, Data input, double d, DataDist **res, int n_atr, int de
 
             double dst = distance(tree->data, input, n_atr);
             if(dst < d){
-                res=(DataDist **)realloc(res, ++n_near);
-                res[n_near-1]=(DataDist *)malloc(sizeof(DataDist));
-                res[n_near-1]->data=tree->data;
-                res[n_near-1]->dist=dst;
+                n_near++;
+                *res=(Data *)realloc(*res, n_near*sizeof(Data));
+                (*res)[n_near-1]=tree->data;
             }
             
-            diff = fabs(tree->data[atr] - input[atr]);
+            double diff = fabs(tree->data[atr] - input[atr]);
             if(diff < d)
                 // debo revisar el otro lado
                 nearer_rec(tree->right, input, d, res, n_atr, deep+1);
@@ -184,23 +180,21 @@ nearer_rec(KDTree *tree, Data input, double d, DataDist **res, int n_atr, int de
             
             double dst = distance(tree->data, input, n_atr);
             if(dst < d){
-                res=(DataDist **)realloc(res, ++n_near);
-                res[n_near-1]=(DataDist *)malloc(sizeof(DataDist));
-                res[n_near-1]->data=tree->data;
-                res[n_near-1]->dist=dst;
+                n_near++;
+                *res=(Data *)realloc(*res, n_near*sizeof(Data));
+                (*res)[n_near-1]=tree->data;
             }
             
-            diff = fabs(tree->data[atr] - input[atr]);
+            double diff = fabs(tree->data[atr] - input[atr]);
             if(diff < d)
                 // debo revisar el otro lado
                 nearer_rec(tree->left, input, d, res, n_atr, deep+1);
         } else {/* tiene el mismo atributo del valor del nodo */
             double dst = distance(tree->data, input, n_atr);
             if(dst < d){
-                res=(DataDist **)realloc(res, ++n_near);
-                res[n_near-1]=(DataDist *)malloc(sizeof(DataDist));
-                res[n_near-1]->data=tree->data;
-                res[n_near-1]->dist=dst;
+                n_near++;
+                *res=(Data *)realloc(*res, n_near*sizeof(Data));
+                (*res)[n_near-1]=tree->data;
             }
             
             nearer_rec(tree->right, input, d, res, n_atr, deep+1);
@@ -215,12 +209,12 @@ nearer_rec(KDTree *tree, Data input, double d, DataDist **res, int n_atr, int de
 Data *kdtree_nearerthan(KDTree *tree, Data input, double d, int n_atr){
 
     int i;
-    DataDist **res;
-
-    nearer_rec(tree, input, d, res, n_atr, 0);
-    Data *ret=(Data *)malloc(sizeof(Data) * (n_near+1));
-    for(i=0;i<n_near;i++)
-        ret[i]=res[i]->data;
-    ret[n_near]=NULL;
+    Data *res=(Data *)malloc(sizeof(Data));
+    n_near=1;
     
+    nearer_rec(tree, input, d, &res, n_atr, 0);
+
+    res[0]=res[n_near-1];
+    res[n_near-1]=NULL;
+    return res;
 }

@@ -49,7 +49,7 @@ char filepat[100];
 
 /* -------------------------------------------------------------------------- */
 /*define_matrix: reserva espacio en memoria para todas las matrices declaradas.
-  Todas las dimensiones son leidas del archivo .nb en la funcion arquitec()  */
+  Todas las dimensiones son leidas del archivo .info en la funcion arquitec()  */
 /* -------------------------------------------------------------------------- */
 int define_matrix(){
 
@@ -61,8 +61,8 @@ int define_matrix(){
   pred=(int *)calloc(max,sizeof(int));
   if(seq==NULL||pred==NULL) return 1;
   
-  train_data=(Data *)calloc(PTOT,sizeof(Data));
-  if(PTEST) test_data=(Data *)calloc(PTEST,sizeof(Data));
+  train_data=(Data *)malloc(PTOT*sizeof(Data));
+  if(PTEST) test_data=(Data *)malloc(PTEST*sizeof(Data));
   if(train_data==NULL ||(PTEST&&test_data==NULL)) return 1;
 
   for(i=0;i<PTOT;i++){
@@ -77,8 +77,8 @@ int define_matrix(){
   return 0;
 }
 /* ---------------------------------------------------------------------------------- */
-/*arquitec: Lee el archivo .nb e inicializa el algoritmo en funcion de los valores leidos
-  filename es el nombre del archivo .nb (sin la extension) */
+/*arquitec: Lee el archivo .info e inicializa el algoritmo en funcion de los valores leidos
+  filename es el nombre del archivo .info (sin la extension) */
 /* ---------------------------------------------------------------------------------- */
 int arquitec(char *filename){
   FILE *b;
@@ -105,7 +105,7 @@ int arquitec(char *filename){
   fscanf(b,"%d",&SEED);
 
   /* Numero D de la distancia a considerar para la votacion */
-  fscanf(b,"%f",&D);
+  fscanf(b,"%lf",&D);
   
   fclose(b);
 
@@ -215,35 +215,43 @@ void shuffle(int hasta){
 int output(Data input){
    	
   int i, j, c, best=0;
-  Data *nearest = kdtree_k_nearest(tree_data, input, K, N_IN);
+  Data *nearer = kdtree_nearerthan(tree_data, input, D, N_IN);
+
+  if(nearer[0]==NULL){
+    /* no hay puntos cerca */
+    c=rand()%N_Class;             // elijo random
+    free(nearer);
+    return c;
+  }
   
 #ifdef DEBUG
   printf("\nnearest de %f %f:\t",input[0], input[1]);
-  for(i=0;i<K;i++){
-    printf("%f %f ;",nearest[i][0],nearest[i][1]);
-      
+  i=0;
+  while(nearer[i]!=NULL){
+    printf("%f %f ;",nearer[i][0],nearer[i][1]);
+    i++;
   }
 #endif
-  
-  int *pos = calloc(N_Class, sizeof(int));                  // posiciones de cercania... arranca en 1
-  int *cant = calloc(N_Class, sizeof(int));
-  
-  for(i=0;i<K;i++){
-    c=(int)nearest[i][N_IN];
-    cant[c]++;
-    if(pos[c]==0)
-        pos[c]=i+1;
+
+  int *votes = calloc(N_Class, sizeof(int));
+  i=0;
+  while(nearer[i]){
+    c=(int)nearer[i][N_IN];
+    votes[c]++;
+    i++;
   }
   
-  /* elijo el mayor, y en caso de empate elijo la clase del punto mas cercano entre ellos */
+  /* elijo el mayor, y en caso de empate elijo una clase random */
   for(i=0;i<N_Class;i++){
-    if(cant[i]>best){
+    if(votes[i]>best){
         c=i;
-        best=cant[i];
-    } else if(cant[i]==best && pos[i] < pos[c])
+        best=votes[i];
+    } else if(votes[i]==best && rand()%2)
         c=i;
   }
-  
+
+  free(nearer);
+  free(votes);
   return c;
 }
 /* ------------------------------------------------------------------------------ */
@@ -322,15 +330,42 @@ int main(int argc, char **argv){
     return 1;
   }
 
-  /* creo el arbol k-d con los datos */
-  tree_data = kdtree_fromList(train_data, PTOT, N_IN);
+  if(SEED > 0)
+      srand(SEED);                             // random para elegir en caso de empate y etc
+  else
+      srand(time(NULL));  
   
-  /* calculo errores */
-  train_error=propagar(train_data,0,PR,0);  // usar seq
-  if(PR==PTOT)
+  if(PR==PTOT){
+      /* creo el arbol k-d con los datos */
+      tree_data = kdtree_fromList(train_data, PTOT, N_IN);
+      /* calculo errores */
+      train_error=propagar(train_data,0,PTOT,0);
       valid_error=0.0;
-  else  
-      valid_error=propagar(train_data,PR,PTOT,0);   // usar usar_seq
+  } else {
+      if(SEED > -1){
+        Data *rand_train_data = (Data *)malloc(sizeof(Data) * PR);
+        int i;
+
+        for(i=0;i<PTOT;i++)
+            seq[i]=i;  /* inicializacion del indice de acceso a los datos */
+        shuffle(PTOT);
+        
+        for(i=0;i<PR;i++)
+            rand_train_data[i]=train_data[seq[i]];
+      
+        tree_data = kdtree_fromList(rand_train_data, PR, N_IN);
+        free(rand_train_data);
+        /* calculo errores */
+        train_error=propagar(train_data,0,PR,1);
+        valid_error=propagar(train_data,PR,PTOT,1);
+          
+      } else {
+        tree_data = kdtree_fromList(train_data, PR, N_IN);
+        /* calculo errores */
+        train_error=propagar(train_data, 0, PR, 0);
+        valid_error=propagar(train_data, PR, PTOT, 0);
+      }
+  }
   
   if(PTEST>0)
       test_error=propagar(test_data,0,PTEST,0);
@@ -349,4 +384,4 @@ int main(int argc, char **argv){
   return 0;
 }
 /* ----------------------------------------------------------------------------------------------------- */
-
+/* ----------------------------------------------------------------------------------------------------- */

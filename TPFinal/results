@@ -1,0 +1,5 @@
+				Mean	SD
+Decision Tree			27.25	4.4179
+Naive Bayes			33.16	3.9391
+SVM Lineal			28.27	3.5514
+SVM No Lineal(Radial Basis)	25.88	3.0724
