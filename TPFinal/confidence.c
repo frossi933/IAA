@@ -19,15 +19,15 @@ int main(int argc, char **argv){
 		//printf("%lf\n",e1[i]);
 		fscanf(h2, "%lf\n", e2+i);
 		//printf("%lf\n",e2[i]);
-		delta+=fabs(e1[i]-e2[i]);
+		delta+=e1[i]-e2[i];			//fabs(e1[i]-e2[i]);
 	}
 	delta=(double)(delta/(k*1.0));
 
 	for(i=0;i<k;i++)
-		sum+=exp2(fabs(e1[i]-e2[i]) - delta);
+		sum+=exp2(e1[i] - e2[i] - delta);			// fabs()
 
 	s=sqrt((1.0/(k*(k-1)))*sum);
 	ret=2.26*s;
-	printf("Resultado: %f\n", ret);
+	printf("Resultado: %f +- %f\n", delta, ret);
 	
 }

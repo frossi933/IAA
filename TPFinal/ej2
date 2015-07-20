@@ -1,0 +1,29 @@
+Ejercicio 2
+"""""""""""
+
+Observando la table del ejercicio anterior vemos que el metodo con mejores resultados para estas pruebas fue el "SVM No Lineal" (con radial basis function), 
+lo siguen los arboles de decision, SVM Lineal y Naive-Bayes, respectivamente. 
+En la primer comparacion, segun el metodo descripto en el libro de Mitchell implementado en el programa "confidence" cuyo codigo esta en confidence.c , tenemos:
+
+"SVM No Lineal" Vs "Naive-Bayes"
+--------------------------------
+
+-7.282000 +- 2.757500
+
+"SVM No Lineal" Vs "Decision Tree"
+----------------------------------
+
+-1.370000 +- 7.184989
+
+
+Vemos en ninguno de los casos tenemos un valor positivo de delta. Esto se debe a que la comparacion consiste en restar los errores de ambos metodos para los
+casos de test expuestos. Como los valores de SVM No Lineal son menores en todos los casos, obtenemos un delta negativo. Esto cambia de signo, obviamente si
+intercambiamos el orden de las entradas del metodo. Tambien tenemos que si analizamos un poquito como es el calculo vemos que simplemente delta es la resta de
+las medias de cada metodo. Por otro lado, el segundo valor es una especia de desvio estandar (multiplicado por un valor que representa la confiabilidad de la
+comparacion segun el numero de casos sobre el que se estan comparando y la exactitud requerida). De este modo, tenemos una idea de que tan exacto puede llegar 
+a ser este delta, o diferencia entre los metodos.
+Como conclusion vemos que es un metodo sencillo para tratar de determinar cual implementacion presenta mejores resultados en todos los casos posibles. Como esto
+no es realizable se elije tomar un conjunto acotado donde calcular estas diferencias. La idea central es simplemente calcular las diferencias de los errores de tests de
+cada uno en cada uno de los casos determinados. 
+Ante problemas de caracteristicas similares esta comparacion puede servir para tener una idea de cual metodo elegir, pero ante situaciones mas complejas con
+diferentes tipos de problemas y demas, ya la comparacion perderia exactitud.

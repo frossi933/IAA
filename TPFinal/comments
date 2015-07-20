@@ -1,0 +1,19 @@
+Ejercicio 1 
+"""""""""""
+
+La implementacion elegida es "SVM Light" (http://svmlight.joachims.org/). Para el kernel no lineal tome el "radial basis function" dentro de las opciones
+del metodo, para esta funcion necesitamos ajustar un parametro Gamma. Por lo tanto, debemos optimizar primero el C para el kernel lineal y luego, el C junto
+al Gamma para el kernel no lineal (veremos que los resultados de C varian para cada caso por separado). Para realizar estas optimizaciones utilice los scripts
+"Copt.sh" y "GAMopt.sh". Dentro de cada uno de ellos simplemente vario el parametro a optimizar (en el codigo se ven los rangos elegidos) y, tomando la salida 
+devuelta por el programa, analizo los errores hasta quedarme con el mejor. Observar que esta implementacion de SVM devuelve el porcentaje de acierto del metodo.
+Los valores sobre los que se va iterando los fui obteniendo de acuerdo a los resultados que me arrojaba el script en varias pasadas, es decir, comence con valores
+bastante separados y luego fui aumentando la precision (agregando mas valores intermedios) de estos segun lo obtenido. Los resultados son:
+
+Kernel Lineal: C = 0.05
+Kernel No Lineal: C = 0.9 Gamma = 0.5
+
+
+La tabla con los resultados en test de cada metodo en cada uno de los sets se encuentra en el archivo "tab" con el siguiente orden: Decision Tree, Naive Bayes, 
+SVM Lineal, SVM No Lineal.
+La media y el desvio estandar proveniente de esos valores se encuentra en el archivo "results"
+
